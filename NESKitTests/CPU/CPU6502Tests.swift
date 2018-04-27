@@ -22,8 +22,11 @@ class CPU6502Tests: XCTestCase {
    
     
     func testInitialState() {
+        let ppu = PPU()
+        
         let memory = CPUMemory(ram: UnsafeMutableRawBufferPointer.allocate(byteCount: 2048,
                                                                            alignment: 1),
+                               ppu: ppu,
                                mapper: DebugReadOnlyPRGMapper(Data([0xA9,0xFF])))
         
         subject = CPU6502(memory: memory)

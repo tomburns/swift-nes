@@ -30,6 +30,7 @@
 		1F8B9AB120925D04005ED998 /* CPU6502Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B9AB020925D04005ED998 /* CPU6502Tests.swift */; };
 		1F8B9AB320937A49005ED998 /* CPU6502SingleInstructionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B9AB220937A49005ED998 /* CPU6502SingleInstructionTests.swift */; };
 		1F8B9AB520937A66005ED998 /* CPU6502BranchROMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B9AB420937A66005ED998 /* CPU6502BranchROMTests.swift */; };
+		1F8B9AB72093BA02005ED998 /* PPU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B9AB62093BA02005ED998 /* PPU.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +89,7 @@
 		1F8B9AB020925D04005ED998 /* CPU6502Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPU6502Tests.swift; sourceTree = "<group>"; };
 		1F8B9AB220937A49005ED998 /* CPU6502SingleInstructionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPU6502SingleInstructionTests.swift; sourceTree = "<group>"; };
 		1F8B9AB420937A66005ED998 /* CPU6502BranchROMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPU6502BranchROMTests.swift; sourceTree = "<group>"; };
+		1F8B9AB62093BA02005ED998 /* PPU.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PPU.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +159,7 @@
 				1F8B9AA520901543005ED998 /* Memory.swift */,
 				1F8B9AA7209029BE005ED998 /* Instruction.swift */,
 				1F8B9AA92091322C005ED998 /* Decompiler.swift */,
+				1F8B9AB62093BA02005ED998 /* PPU.swift */,
 			);
 			path = NESKit;
 			sourceTree = "<group>";
@@ -359,6 +362,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F8B9AA620901543005ED998 /* Memory.swift in Sources */,
+				1F8B9AB72093BA02005ED998 /* PPU.swift in Sources */,
 				1F8B9A8C208F969C005ED998 /* Cartridge.swift in Sources */,
 				1F8B9AA2208FCFE5005ED998 /* Console.swift in Sources */,
 				1F8B9AA8209029BE005ED998 /* Instruction.swift in Sources */,

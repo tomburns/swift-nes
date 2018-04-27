@@ -19,8 +19,11 @@ class CPU6502SingleInstructionTests: XCTestCase {
     }
 
     func testLDAImmediate() {
+        let ppu = PPU()
+        
         let memory = CPUMemory(ram: UnsafeMutableRawBufferPointer.allocate(byteCount: 2048,
                                                                            alignment: 1),
+                               ppu: ppu,
                                mapper: DebugReadOnlyPRGMapper(Data([0xA9,0x50,0xA9,0xFF,0xA9,0x00])))
         
         subject = CPU6502(memory: memory)
@@ -51,6 +54,7 @@ class CPU6502SingleInstructionTests: XCTestCase {
         
         
         let memory = CPUMemory(ram: ram,
+                               ppu: PPU(),
                                mapper: DebugReadOnlyPRGMapper(Data([0xA9,0x50,0x85,0x00,
                                                                     0xA9,0xFF,0x85,0x01,
                                                                     0xA9,0x00,0x85,0x02])))
@@ -79,6 +83,7 @@ class CPU6502SingleInstructionTests: XCTestCase {
         ram[2] = 0xFF
         
         let memory = CPUMemory(ram: ram,
+                               ppu: PPU(),
                                mapper: DebugReadOnlyPRGMapper(Data([0x24,0x00,
                                                                     0x24,0x01,
                                                                     0x24,0x02,
@@ -117,6 +122,7 @@ class CPU6502SingleInstructionTests: XCTestCase {
         let ram = UnsafeMutableRawBufferPointer.allocate(byteCount: 2048,
                                                          alignment: 1)
         let memory = CPUMemory(ram: ram,
+                               ppu: PPU(),
                                mapper: DebugReadOnlyPRGMapper(Data([0x78])))
         
         subject = CPU6502(memory: memory)

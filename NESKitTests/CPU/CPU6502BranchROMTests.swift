@@ -25,11 +25,9 @@ class CPU6502BranchROMTests: XCTestCase {
         
         let cartridge = try! Cartridge(data: romData)
         
-        let memory = CPUMemory(ram: UnsafeMutableRawBufferPointer.allocate(byteCount: 2048,
-                                                                           alignment: 1),
-                               mapper: NROM128Mapper(cartridge: cartridge))
+        let console = Console(cartridge: cartridge)
         
-        subject = CPU6502(memory: memory)
+        subject = console.cpu
         
         //FIXME: Actually run this
         XCTAssertNoThrow(try subject.step())

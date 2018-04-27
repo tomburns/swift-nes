@@ -11,6 +11,8 @@ import Foundation
 class Console {
     
     let cpu: CPU6502
+    let ppu = PPU()
+    
     let cartridge: Cartridge
     
     let ram = UnsafeMutableRawBufferPointer.allocate(byteCount: 2048, alignment: 1)
@@ -20,7 +22,7 @@ class Console {
         
         let mapper = NROM128Mapper(cartridge: cartridge)
         
-        let cpuMemory = CPUMemory(ram: ram, mapper: mapper)
+        let cpuMemory = CPUMemory(ram: ram, ppu: ppu, mapper: mapper)
         
         cpu = CPU6502(memory: cpuMemory)
     }

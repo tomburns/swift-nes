@@ -28,9 +28,12 @@ class CPUMemory: Memory {
     
     private let mapper: Mapper
     
-    init(ram: UnsafeMutableRawBufferPointer, mapper: Mapper) {
+    private let ppu: PPU
+    
+    init(ram: UnsafeMutableRawBufferPointer, ppu: PPU, mapper: Mapper) {
         self.mapper = mapper
         self.ram = ram
+        self.ppu = ppu
     }
     
     func read(_ address: UInt16) -> UInt8 {
@@ -38,7 +41,20 @@ class CPUMemory: Memory {
         case 0x0000..<0x2000:
             return ram[Int(address % 0x0800)]
         case 0x2000..<0x4000:
-            print("should be reading from PPU register here")
+            return ppu.readRegister(0x2000 + address % 8)
+        case 0x4014:
+            return ppu.readRegister(address)
+        case 0x4015:
+            print("should be reading from APU register here")
+            return 0
+        case 0x4016:
+            print("should be reading from Controllers here")
+            return 0
+        case 0x4017:
+            print("should be reading from Controllers here")
+            return 0
+        case 0x4018..<0x6000:
+            print("I/O Registers!")
             return 0
         case 0x6000...0xFFFF:
             return mapper.read(address)
