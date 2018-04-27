@@ -207,6 +207,10 @@ extension CPU6502.Instruction.Operand: CustomStringConvertible {
             return String(format: "($%02X,X)", byte)
         case .indirectIndexed(let byte):
             return String(format: "($%02X),Y", byte)
+        case .implied:
+            return ""
+        case .accumulator:
+            return "A"
         default:
             return "???"
         }
