@@ -8,7 +8,46 @@
 
 /* Begin PBXBuildFile section */
 		1F8B9A4D208F95BA005ED998 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B9A4C208F95BA005ED998 /* main.swift */; };
+		1F8B9A7D208F962A005ED998 /* NESKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F8B9A74208F962A005ED998 /* NESKit.framework */; };
+		1F8B9A82208F962A005ED998 /* NESKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B9A81208F962A005ED998 /* NESKitTests.swift */; };
+		1F8B9A84208F962A005ED998 /* NESKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 1F8B9A76208F962A005ED998 /* NESKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1F8B9A8C208F969C005ED998 /* Cartridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B9A8B208F969C005ED998 /* Cartridge.swift */; };
+		1F8B9A8E208F96C7005ED998 /* NESKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F8B9A74208F962A005ED998 /* NESKit.framework */; };
+		1F8B9A92208F9749005ED998 /* CartridgeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B9A91208F9749005ED998 /* CartridgeTests.swift */; };
+		1F8B9A94208F9755005ED998 /* SMB.nes in Resources */ = {isa = PBXBuildFile; fileRef = 1F8B9A93208F9755005ED998 /* SMB.nes */; };
+		1F8B9A96208FACB4005ED998 /* SMB2.nes in Resources */ = {isa = PBXBuildFile; fileRef = 1F8B9A95208FACB4005ED998 /* SMB2.nes */; };
+		1F8B9A98208FACCB005ED998 /* SMB3.nes in Resources */ = {isa = PBXBuildFile; fileRef = 1F8B9A97208FACCB005ED998 /* SMB3.nes */; };
+		1F8B9A9D208FB518005ED998 /* 1.Branch_Basics.nes in Resources */ = {isa = PBXBuildFile; fileRef = 1F8B9A9A208FB518005ED998 /* 1.Branch_Basics.nes */; };
+		1F8B9A9E208FB518005ED998 /* 2.Backward_Branch.nes in Resources */ = {isa = PBXBuildFile; fileRef = 1F8B9A9B208FB518005ED998 /* 2.Backward_Branch.nes */; };
+		1F8B9A9F208FB518005ED998 /* 3.Forward_Branch.nes in Resources */ = {isa = PBXBuildFile; fileRef = 1F8B9A9C208FB518005ED998 /* 3.Forward_Branch.nes */; };
+		1F8B9AA2208FCFE5005ED998 /* Console.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B9AA1208FCFE5005ED998 /* Console.swift */; };
+		1F8B9AA4208FCFFF005ED998 /* CPU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B9AA3208FCFFF005ED998 /* CPU.swift */; };
+		1F8B9AA620901543005ED998 /* Memory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B9AA520901543005ED998 /* Memory.swift */; };
+		1F8B9AA8209029BE005ED998 /* Instruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B9AA7209029BE005ED998 /* Instruction.swift */; };
+		1F8B9AAA2091322C005ED998 /* Decompiler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B9AA92091322C005ED998 /* Decompiler.swift */; };
+		1F8B9AAD2091354E005ED998 /* DecompilerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B9AAC2091354E005ED998 /* DecompilerTests.swift */; };
+		1F8B9AAF20924797005ED998 /* InstructionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B9AAE20924797005ED998 /* InstructionTests.swift */; };
+		1F8B9AB120925D04005ED998 /* CPU6502Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B9AB020925D04005ED998 /* CPU6502Tests.swift */; };
+		1F8B9AB320937A49005ED998 /* CPU6502SingleInstructionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B9AB220937A49005ED998 /* CPU6502SingleInstructionTests.swift */; };
+		1F8B9AB520937A66005ED998 /* CPU6502BranchROMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B9AB420937A66005ED998 /* CPU6502BranchROMTests.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1F8B9A7E208F962A005ED998 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F8B9A41208F95BA005ED998 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1F8B9A73208F962A005ED998;
+			remoteInfo = NESKit;
+		};
+		1F8B9A8F208F96F8005ED998 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F8B9A41208F95BA005ED998 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1F8B9A73208F962A005ED998;
+			remoteInfo = NESKit;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		1F8B9A47208F95BA005ED998 /* CopyFiles */ = {
@@ -25,6 +64,30 @@
 /* Begin PBXFileReference section */
 		1F8B9A49208F95BA005ED998 /* swift-nes */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "swift-nes"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F8B9A4C208F95BA005ED998 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		1F8B9A74208F962A005ED998 /* NESKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NESKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F8B9A76208F962A005ED998 /* NESKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NESKit.h; sourceTree = "<group>"; };
+		1F8B9A77208F962A005ED998 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1F8B9A7C208F962A005ED998 /* NESKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NESKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F8B9A81208F962A005ED998 /* NESKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NESKitTests.swift; sourceTree = "<group>"; };
+		1F8B9A83208F962A005ED998 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1F8B9A8B208F969C005ED998 /* Cartridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cartridge.swift; sourceTree = "<group>"; };
+		1F8B9A91208F9749005ED998 /* CartridgeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartridgeTests.swift; sourceTree = "<group>"; };
+		1F8B9A93208F9755005ED998 /* SMB.nes */ = {isa = PBXFileReference; lastKnownFileType = file; path = SMB.nes; sourceTree = "<group>"; };
+		1F8B9A95208FACB4005ED998 /* SMB2.nes */ = {isa = PBXFileReference; lastKnownFileType = file; path = SMB2.nes; sourceTree = "<group>"; };
+		1F8B9A97208FACCB005ED998 /* SMB3.nes */ = {isa = PBXFileReference; lastKnownFileType = file; path = SMB3.nes; sourceTree = "<group>"; };
+		1F8B9A9A208FB518005ED998 /* 1.Branch_Basics.nes */ = {isa = PBXFileReference; lastKnownFileType = file; path = 1.Branch_Basics.nes; sourceTree = "<group>"; };
+		1F8B9A9B208FB518005ED998 /* 2.Backward_Branch.nes */ = {isa = PBXFileReference; lastKnownFileType = file; path = 2.Backward_Branch.nes; sourceTree = "<group>"; };
+		1F8B9A9C208FB518005ED998 /* 3.Forward_Branch.nes */ = {isa = PBXFileReference; lastKnownFileType = file; path = 3.Forward_Branch.nes; sourceTree = "<group>"; };
+		1F8B9AA1208FCFE5005ED998 /* Console.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Console.swift; sourceTree = "<group>"; };
+		1F8B9AA3208FCFFF005ED998 /* CPU.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPU.swift; sourceTree = "<group>"; };
+		1F8B9AA520901543005ED998 /* Memory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memory.swift; sourceTree = "<group>"; };
+		1F8B9AA7209029BE005ED998 /* Instruction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instruction.swift; sourceTree = "<group>"; };
+		1F8B9AA92091322C005ED998 /* Decompiler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decompiler.swift; sourceTree = "<group>"; };
+		1F8B9AAC2091354E005ED998 /* DecompilerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecompilerTests.swift; sourceTree = "<group>"; };
+		1F8B9AAE20924797005ED998 /* InstructionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionTests.swift; sourceTree = "<group>"; };
+		1F8B9AB020925D04005ED998 /* CPU6502Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPU6502Tests.swift; sourceTree = "<group>"; };
+		1F8B9AB220937A49005ED998 /* CPU6502SingleInstructionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPU6502SingleInstructionTests.swift; sourceTree = "<group>"; };
+		1F8B9AB420937A66005ED998 /* CPU6502BranchROMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPU6502BranchROMTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +95,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F8B9A8E208F96C7005ED998 /* NESKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1F8B9A70208F962A005ED998 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1F8B9A79208F962A005ED998 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F8B9A7D208F962A005ED998 /* NESKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,7 +121,10 @@
 			isa = PBXGroup;
 			children = (
 				1F8B9A4B208F95BA005ED998 /* swift-nes */,
+				1F8B9A75208F962A005ED998 /* NESKit */,
+				1F8B9A80208F962A005ED998 /* NESKitTests */,
 				1F8B9A4A208F95BA005ED998 /* Products */,
+				1F8B9A8D208F96C7005ED998 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -50,6 +132,8 @@
 			isa = PBXGroup;
 			children = (
 				1F8B9A49208F95BA005ED998 /* swift-nes */,
+				1F8B9A74208F962A005ED998 /* NESKit.framework */,
+				1F8B9A7C208F962A005ED998 /* NESKitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -62,7 +146,85 @@
 			path = "swift-nes";
 			sourceTree = "<group>";
 		};
+		1F8B9A75208F962A005ED998 /* NESKit */ = {
+			isa = PBXGroup;
+			children = (
+				1F8B9A76208F962A005ED998 /* NESKit.h */,
+				1F8B9A77208F962A005ED998 /* Info.plist */,
+				1F8B9A8B208F969C005ED998 /* Cartridge.swift */,
+				1F8B9AA1208FCFE5005ED998 /* Console.swift */,
+				1F8B9AA3208FCFFF005ED998 /* CPU.swift */,
+				1F8B9AA520901543005ED998 /* Memory.swift */,
+				1F8B9AA7209029BE005ED998 /* Instruction.swift */,
+				1F8B9AA92091322C005ED998 /* Decompiler.swift */,
+			);
+			path = NESKit;
+			sourceTree = "<group>";
+		};
+		1F8B9A80208F962A005ED998 /* NESKitTests */ = {
+			isa = PBXGroup;
+			children = (
+				1F8B9AAB2091352B005ED998 /* CPU */,
+				1F8B9AA0208FB526005ED998 /* Game ROMs */,
+				1F8B9A99208FB506005ED998 /* Branch Test ROMs */,
+				1F8B9A81208F962A005ED998 /* NESKitTests.swift */,
+				1F8B9A83208F962A005ED998 /* Info.plist */,
+				1F8B9A91208F9749005ED998 /* CartridgeTests.swift */,
+			);
+			path = NESKitTests;
+			sourceTree = "<group>";
+		};
+		1F8B9A8D208F96C7005ED998 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1F8B9A99208FB506005ED998 /* Branch Test ROMs */ = {
+			isa = PBXGroup;
+			children = (
+				1F8B9A9A208FB518005ED998 /* 1.Branch_Basics.nes */,
+				1F8B9A9B208FB518005ED998 /* 2.Backward_Branch.nes */,
+				1F8B9A9C208FB518005ED998 /* 3.Forward_Branch.nes */,
+			);
+			path = "Branch Test ROMs";
+			sourceTree = "<group>";
+		};
+		1F8B9AA0208FB526005ED998 /* Game ROMs */ = {
+			isa = PBXGroup;
+			children = (
+				1F8B9A93208F9755005ED998 /* SMB.nes */,
+				1F8B9A95208FACB4005ED998 /* SMB2.nes */,
+				1F8B9A97208FACCB005ED998 /* SMB3.nes */,
+			);
+			path = "Game ROMs";
+			sourceTree = "<group>";
+		};
+		1F8B9AAB2091352B005ED998 /* CPU */ = {
+			isa = PBXGroup;
+			children = (
+				1F8B9AAC2091354E005ED998 /* DecompilerTests.swift */,
+				1F8B9AAE20924797005ED998 /* InstructionTests.swift */,
+				1F8B9AB020925D04005ED998 /* CPU6502Tests.swift */,
+				1F8B9AB220937A49005ED998 /* CPU6502SingleInstructionTests.swift */,
+				1F8B9AB420937A66005ED998 /* CPU6502BranchROMTests.swift */,
+			);
+			path = CPU;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		1F8B9A71208F962A005ED998 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F8B9A84208F962A005ED998 /* NESKit.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		1F8B9A48208F95BA005ED998 /* swift-nes */ = {
@@ -76,11 +238,48 @@
 			buildRules = (
 			);
 			dependencies = (
+				1F8B9A90208F96F8005ED998 /* PBXTargetDependency */,
 			);
 			name = "swift-nes";
 			productName = "swift-nes";
 			productReference = 1F8B9A49208F95BA005ED998 /* swift-nes */;
 			productType = "com.apple.product-type.tool";
+		};
+		1F8B9A73208F962A005ED998 /* NESKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1F8B9A85208F962A005ED998 /* Build configuration list for PBXNativeTarget "NESKit" */;
+			buildPhases = (
+				1F8B9A6F208F962A005ED998 /* Sources */,
+				1F8B9A70208F962A005ED998 /* Frameworks */,
+				1F8B9A71208F962A005ED998 /* Headers */,
+				1F8B9A72208F962A005ED998 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NESKit;
+			productName = NESKit;
+			productReference = 1F8B9A74208F962A005ED998 /* NESKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		1F8B9A7B208F962A005ED998 /* NESKitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1F8B9A88208F962A005ED998 /* Build configuration list for PBXNativeTarget "NESKitTests" */;
+			buildPhases = (
+				1F8B9A78208F962A005ED998 /* Sources */,
+				1F8B9A79208F962A005ED998 /* Frameworks */,
+				1F8B9A7A208F962A005ED998 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1F8B9A7F208F962A005ED998 /* PBXTargetDependency */,
+			);
+			name = NESKitTests;
+			productName = NESKitTests;
+			productReference = 1F8B9A7C208F962A005ED998 /* NESKitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -93,6 +292,13 @@
 				ORGANIZATIONNAME = Claptrap;
 				TargetAttributes = {
 					1F8B9A48208F95BA005ED998 = {
+						CreatedOnToolsVersion = 9.3;
+					};
+					1F8B9A73208F962A005ED998 = {
+						CreatedOnToolsVersion = 9.3;
+						LastSwiftMigration = 0930;
+					};
+					1F8B9A7B208F962A005ED998 = {
 						CreatedOnToolsVersion = 9.3;
 					};
 				};
@@ -110,9 +316,34 @@
 			projectRoot = "";
 			targets = (
 				1F8B9A48208F95BA005ED998 /* swift-nes */,
+				1F8B9A73208F962A005ED998 /* NESKit */,
+				1F8B9A7B208F962A005ED998 /* NESKitTests */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1F8B9A72208F962A005ED998 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1F8B9A7A208F962A005ED998 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F8B9A9D208FB518005ED998 /* 1.Branch_Basics.nes in Resources */,
+				1F8B9A9F208FB518005ED998 /* 3.Forward_Branch.nes in Resources */,
+				1F8B9A96208FACB4005ED998 /* SMB2.nes in Resources */,
+				1F8B9A94208F9755005ED998 /* SMB.nes in Resources */,
+				1F8B9A9E208FB518005ED998 /* 2.Backward_Branch.nes in Resources */,
+				1F8B9A98208FACCB005ED998 /* SMB3.nes in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1F8B9A45208F95BA005ED998 /* Sources */ = {
@@ -123,7 +354,47 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1F8B9A6F208F962A005ED998 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F8B9AA620901543005ED998 /* Memory.swift in Sources */,
+				1F8B9A8C208F969C005ED998 /* Cartridge.swift in Sources */,
+				1F8B9AA2208FCFE5005ED998 /* Console.swift in Sources */,
+				1F8B9AA8209029BE005ED998 /* Instruction.swift in Sources */,
+				1F8B9AA4208FCFFF005ED998 /* CPU.swift in Sources */,
+				1F8B9AAA2091322C005ED998 /* Decompiler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1F8B9A78208F962A005ED998 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F8B9AB120925D04005ED998 /* CPU6502Tests.swift in Sources */,
+				1F8B9A82208F962A005ED998 /* NESKitTests.swift in Sources */,
+				1F8B9AB320937A49005ED998 /* CPU6502SingleInstructionTests.swift in Sources */,
+				1F8B9AAD2091354E005ED998 /* DecompilerTests.swift in Sources */,
+				1F8B9AAF20924797005ED998 /* InstructionTests.swift in Sources */,
+				1F8B9AB520937A66005ED998 /* CPU6502BranchROMTests.swift in Sources */,
+				1F8B9A92208F9749005ED998 /* CartridgeTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1F8B9A7F208F962A005ED998 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1F8B9A73208F962A005ED998 /* NESKit */;
+			targetProxy = 1F8B9A7E208F962A005ED998 /* PBXContainerItemProxy */;
+		};
+		1F8B9A90208F96F8005ED998 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1F8B9A73208F962A005ED998 /* NESKit */;
+			targetProxy = 1F8B9A8F208F96F8005ED998 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		1F8B9A4E208F95BA005ED998 /* Debug */ = {
@@ -259,6 +530,105 @@
 			};
 			name = Release;
 		};
+		1F8B9A86208F962A005ED998 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 25ELC7FF69;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = NESKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = io.claptrap.NESKit;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		1F8B9A87208F962A005ED998 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 25ELC7FF69;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = NESKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = io.claptrap.NESKit;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		1F8B9A89208F962A005ED998 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 25ELC7FF69;
+				INFOPLIST_FILE = NESKitTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = io.claptrap.NESKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		1F8B9A8A208F962A005ED998 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 25ELC7FF69;
+				INFOPLIST_FILE = NESKitTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = io.claptrap.NESKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -276,6 +646,24 @@
 			buildConfigurations = (
 				1F8B9A51208F95BA005ED998 /* Debug */,
 				1F8B9A52208F95BA005ED998 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1F8B9A85208F962A005ED998 /* Build configuration list for PBXNativeTarget "NESKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1F8B9A86208F962A005ED998 /* Debug */,
+				1F8B9A87208F962A005ED998 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1F8B9A88208F962A005ED998 /* Build configuration list for PBXNativeTarget "NESKitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1F8B9A89208F962A005ED998 /* Debug */,
+				1F8B9A8A208F962A005ED998 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
