@@ -69,4 +69,60 @@ class CPU6502SingleInstructionTests: XCTestCase {
         XCTAssertEqual(ram[2],0x00)
 
     }
+    
+    func testBITZeroPage() {
+        let ram = UnsafeMutableRawBufferPointer.allocate(byteCount: 2048,
+                                                         alignment: 1)
+        
+        ram[0] = 0x00
+        ram[1] = 0xC3
+        ram[2] = 0xFF
+        
+        let memory = CPUMemory(ram: ram,
+                               mapper: DebugReadOnlyPRGMapper(Data([0x24,0x00,
+                                                                    0x24,0x01,
+                                                                    0x24,0x02,
+                                                                    0xA9,0x11,
+                                                                    0x24,0x02,])))
+        
+        subject = CPU6502(memory: memory)
+        
+        XCTAssertNoThrow(try subject.step())
+        
+        XCTAssertFalse(subject.negative)
+        XCTAssertTrue(subject.zero)
+        XCTAssertFalse(subject.overflow)
+        
+        XCTAssertNoThrow(try subject.step())
+        
+        XCTAssertTrue(subject.negative)
+        XCTAssertTrue(subject.zero)
+        XCTAssertTrue(subject.overflow)
+        
+        XCTAssertNoThrow(try subject.step())
+        
+        XCTAssertTrue(subject.negative)
+        XCTAssertTrue(subject.zero)
+        XCTAssertTrue(subject.overflow)
+        
+        XCTAssertNoThrow(try subject.step())
+        XCTAssertNoThrow(try subject.step())
+        
+        XCTAssertTrue(subject.negative)
+        XCTAssertFalse(subject.zero)
+        XCTAssertTrue(subject.overflow)
+    }
+    
+    func testSEI() {
+        let ram = UnsafeMutableRawBufferPointer.allocate(byteCount: 2048,
+                                                         alignment: 1)
+        let memory = CPUMemory(ram: ram,
+                               mapper: DebugReadOnlyPRGMapper(Data([0x78])))
+        
+        subject = CPU6502(memory: memory)
+        
+        XCTAssertNoThrow(try subject.step())
+        
+        XCTAssertTrue(subject.interruptDisable)
+    }
 }

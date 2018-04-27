@@ -33,19 +33,19 @@ class InstructionTests: XCTestCase {
     func testLDAAbsolute() {
         let subject = try! CPU6502.Instruction(Data(bytes: [0xAD, 0x89, 0xAB]))
         XCTAssertEqual(subject.opcode, .lda)
-        XCTAssertEqual(subject.description, "LDA $89AB")
+        XCTAssertEqual(subject.description, "LDA $AB89")
     }
     
     func testLDAAbsoluteX() {
         let subject = try! CPU6502.Instruction(Data(bytes: [0xBD, 0xCD, 0xEF]))
         XCTAssertEqual(subject.opcode, .lda)
-        XCTAssertEqual(subject.description, "LDA $CDEF,X")
+        XCTAssertEqual(subject.description, "LDA $EFCD,X")
     }
     
     func testLDAAbsoluteY() {
         let subject = try! CPU6502.Instruction(Data(bytes: [0xB9, 0x01, 0x23]))
         XCTAssertEqual(subject.opcode, .lda)
-        XCTAssertEqual(subject.description, "LDA $0123,Y")
+        XCTAssertEqual(subject.description, "LDA $2301,Y")
     }
     
     func testLDAIndirectIndexed() {

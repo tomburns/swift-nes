@@ -27,6 +27,10 @@ class CPU6502 {
         return flags.contains(.zero)
     }
     
+    var overflow: Bool {
+        return flags.contains(.overflow)
+    }
+    
     var decimalMode: Bool {
         return flags.contains(.decimalMode)
     }
@@ -53,10 +57,14 @@ class CPU6502 {
         let (address,_) = getAddress(for: instruction)
         
         switch instruction.opcode {
+        case .bit:
+            bit(address)
         case .lda:
             lda(address)
         case .jsr:
             jsr(address)
+        case .sei:
+            sei()
         case .sta:
             sta(address)
         case .nop:
@@ -64,6 +72,38 @@ class CPU6502 {
         }
         
         return 1
+    }
+    
+    func bit(_ address: UInt16) {
+        let value = memory.read(address)
+        
+        setN(value)
+        setV(value)
+        setZ(value & accumulator)
+    }
+    
+    func setZ(_ value: UInt8) {
+        if value == 0 {
+            flags.insert(.zero)
+        } else {
+            flags.remove(.zero)
+        }
+    }
+    
+    func setN(_ value: UInt8) {
+        if (value  >> 7) > 0  {
+            flags.insert(.negative)
+        } else {
+            flags.remove(.negative)
+        }
+    }
+    
+    func setV(_ value: UInt8) {
+        if (value  >> 6) > 0 {
+            flags.insert(.overflow)
+        } else {
+            flags.remove(.overflow)
+        }
     }
     
     func lda(_ address: UInt16) {
@@ -87,9 +127,14 @@ class CPU6502 {
         programCounter = address
     }
     
+    func sei() {
+        flags.insert(.interruptDisable)
+    }
+    
     func sta(_ address: UInt16) {
         memory.write(accumulator, to: address)
     }
+    
     func push(_ value: UInt8) {
         memory.write(value, to: 0x100|UInt16(stackPointer))
         stackPointer -= 1
@@ -130,7 +175,7 @@ class CPU6502 {
         case .immediate:
             address = instruction.location + 1
         case .implied:
-            fatalError()
+            address = instruction.location
             break
         case let .indexedIndirect(offset):
             address = memory.read16(UInt16(registerX) + UInt16(offset))

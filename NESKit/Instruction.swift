@@ -10,19 +10,25 @@ import Foundation
 
 extension CPU6502 {
     enum Opcode: String, Codable {
+        case bit = "BIT"
         case lda = "LDA"
         case nop = "NOP"
         case jsr = "JSR"
+        case sei = "SEI"
         case sta = "STA"
         
         init(_ byte: UInt8) throws {
             switch byte {
+            case 0x24, 0x2C:
+                self = .bit
             case 0xA9, 0xA5, 0xB5, 0xAD, 0xBD, 0xB9, 0xA1, 0xB1:
                 self = .lda
             case 0x20:
                 self = .jsr
             case 0x85, 0x95, 0x8D, 0x9D, 0x99, 0x81, 0x91:
                 self = .sta
+            case 0x78:
+                self = .sei
             default:
                 throw Error.unsupportedOpcode(byte)
             }
@@ -30,6 +36,11 @@ extension CPU6502 {
         
         static func size(for opcode: UInt8) throws -> Int {
             switch opcode {
+                //BIT:
+            case 0x24:
+                return 2
+            case 0x2C:
+                return 3
             //LDA:
             case 0xA9:
                 return 2
@@ -50,6 +61,9 @@ extension CPU6502 {
             //JSR:
             case 0x20:
                 return 3
+            //SEI:
+            case 0x78:
+                return 1
             //STA:
             case 0x85:
                 return 2
@@ -65,6 +79,7 @@ extension CPU6502 {
                 return 2
             case 0x91:
                 return 2
+                
             default:
                 throw Error.unsupportedOpcode(opcode)
             }
@@ -131,11 +146,11 @@ extension CPU6502 {
                 switch data[0] {
                 case 0xA9:
                     self = .immediate(data[1])
-                case 0xA5, 0x85:
+                case 0xA5, 0x85, 0x24:
                     self = .zeroPage(data[1])
                 case 0xB5, 0x95:
                     self = .zeroPageX(data[1])
-                case 0xAD, 0x8D, 0x20:
+                case 0xAD, 0x8D, 0x20, 0x2C:
                     let address = (UInt16(data[2]) << 8) + UInt16(data[1])
                     self = .absolute(address)
                 case 0xBD, 0x9D:
@@ -148,6 +163,8 @@ extension CPU6502 {
                     self = .indexedIndirect(data[1])
                 case 0xB1, 0x91:
                     self = .indirectIndexed(data[1])
+                case 0x78:
+                    self = .implied
                 default:
                     throw Error.unsupportedOpcode(data[0])
                 }

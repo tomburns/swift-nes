@@ -29,9 +29,9 @@ private let ldaExpected = """
 LDA #$23
 LDA $45
 LDA $67,X
-LDA $89AB
-LDA $CDEF,X
-LDA $01A1,Y
+LDA $AB89
+LDA $EFCD,X
+LDA $A101,Y
 LDA ($86),Y
 LDA ($69,X)
 
