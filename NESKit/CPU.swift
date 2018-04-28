@@ -11,6 +11,8 @@ import Foundation
 class CPU6502 {
     let memory: Memory
     
+    var cycles: Int = 0
+    
     var programCounter: UInt16 = 0
     
     var stackPointer: UInt8 = 0
@@ -18,7 +20,11 @@ class CPU6502 {
     var accumulator: UInt8 = 0
     var registerX: UInt8 = 0
     var registerY: UInt8 = 0
-
+    
+    var carry: Bool {
+        return flags.contains(.carry)
+    }
+    
     var negative: Bool {
         return flags.contains(.negative)
     }
@@ -48,19 +54,32 @@ class CPU6502 {
     
     @discardableResult
     func step() throws -> Int {
+        
         let instruction = try nextInstruction()
-
+        
         print(String(format:" %02X\t\t%@",programCounter, instruction.description))
-
+        
         programCounter += UInt16(instruction.size)
         
-        let (address,_) = getAddress(for: instruction)
+        let address = operandAddress(for: instruction)
         
         switch instruction.opcode {
+        case .adc:
+            adc(address)
+        case .brk:
+            brk()
+        case .beq:
+            beq(instruction)
+        case .bne:
+            bne(instruction)
+        case .bpl:
+            bpl(instruction)
         case .bit:
             bit(address)
         case .lda:
             lda(address)
+        case .ldx:
+            ldx(address)
         case .jsr:
             jsr(address)
         case .sei:
@@ -69,9 +88,46 @@ class CPU6502 {
             sta(address)
         case .nop:
             break
+        case .pha:
+            pha()
+        case .tax:
+            tax()
+        case .txa:
+            txa()
+        case .dex:
+            dex()
+        case .inx:
+            inx()
+        case .tay:
+            tay()
+        case .tya:
+            tya()
+        case .dey:
+            dey()
+        case .iny:
+            iny()
+        case .jmp:
+            jmp(address)
+        case .php:
+            php()
+        case .rol:
+            rol(instruction)
+        case .ror:
+            ror(instruction)
         }
         
         return 1
+    }
+    
+    func adc(_ address: UInt16) {
+        
+    }
+    
+    func beq(_ instruction: Instruction) {
+        if !zero {
+            programCounter = operandAddress(for: instruction)
+            addBranchCycles(for: instruction)
+        }
     }
     
     func bit(_ address: UInt16) {
@@ -80,6 +136,145 @@ class CPU6502 {
         setN(value)
         setV(value)
         setZ(value & accumulator)
+    }
+    
+    func bne(_ instruction: Instruction) {
+        if zero {
+            programCounter = operandAddress(for: instruction)
+            addBranchCycles(for: instruction)
+        }
+    }
+    
+    func bpl(_ instruction: Instruction) {
+        if !negative {
+            programCounter = operandAddress(for: instruction)
+            addBranchCycles(for: instruction)
+        }
+    }
+    
+    func brk() {
+        push16(programCounter)
+        php()
+        sei()
+        programCounter = memory.read16(0xFFFE)
+    }
+    
+    func rol(_ instruction: Instruction) {
+        switch instruction.operand {
+        case .accumulator:
+            let carried: UInt8 = carry ? 1 : 0
+            
+            if (accumulator >> 7) & 1 == 1 {
+                flags.insert(.carry)
+            } else {
+                flags.remove(.carry)
+            }
+            
+            accumulator = (accumulator << 1 ) | carried
+            setZ(accumulator)
+            setN(accumulator)
+        default:
+            let address = operandAddress(for: instruction)
+            let initial = memory.read(address)
+            let carried: UInt8 = carry ? 1 : 0
+            
+            if (initial >> 7) & 1 == 1 {
+                flags.insert(.carry)
+            } else {
+                flags.remove(.carry)
+            }
+            
+            let value = (initial << 1 | carried)
+            
+            memory.write(value, to: address)
+            setZ(value)
+            setN(value)
+        }
+    }
+    
+    func ror(_ instruction: Instruction) {
+        switch instruction.operand {
+        case .accumulator:
+            let carried: UInt8 = carry ? 1 : 0
+            
+            if (accumulator & 1) == 1 {
+                flags.insert(.carry)
+            } else {
+                flags.remove(.carry)
+            }
+            
+            accumulator = (accumulator >> 1 ) | (carried << 7)
+            setZ(accumulator)
+            setN(accumulator)
+        default:
+            let address = operandAddress(for: instruction)
+            let initial = memory.read(address)
+            let carried: UInt8 = carry ? 1 : 0
+            
+            if (initial >> 7) & 1 == 1 {
+                flags.insert(.carry)
+            } else {
+                flags.remove(.carry)
+            }
+            
+            let value = (initial >> 1)  | (carried << 7)
+            
+            memory.write(value, to: address)
+            setZ(accumulator)
+            setN(accumulator)
+        }
+    }
+    
+    func pha() {
+        push(accumulator)
+    }
+    
+    func php() {
+        push(flags.rawValue | 0x10)
+    }
+    
+    func tax() {
+        registerX = accumulator
+    }
+    
+    func txa() {
+        accumulator = registerX
+    }
+    
+    func dex() {
+        registerX -= 1
+    }
+    
+    func inx() {
+        registerX += 1
+    }
+    
+    func tay() {
+        registerY = accumulator
+    }
+    
+    func tya() {
+        accumulator = registerY
+    }
+    
+    func iny() {
+        registerY += 1
+    }
+    
+    func dey() {
+        registerY -= 1
+    }
+    
+    private func addBranchCycles(for instruction: Instruction) {
+        cycles += 1
+        
+        if pagesDiffer(instruction.location, operandAddress(for: instruction)) {
+            cycles += 1
+        }
+    }
+    
+    func pagesDiffer(_ a: UInt16, _ b: UInt16) -> Bool {
+        return a&0xFF00 != b&0xFF00
     }
     
     func setZ(_ value: UInt8) {
@@ -122,6 +317,27 @@ class CPU6502 {
         }
     }
     
+    func ldx(_ address: UInt16) {
+        registerX = memory.read(address)
+        
+        if accumulator == 0 {
+            flags.insert(.zero)
+        } else {
+            flags.remove(.zero)
+        }
+        
+        if accumulator.leadingZeroBitCount == 0 {
+            flags.insert(.negative)
+        } else {
+            flags.remove(.negative)
+        }
+    }
+    
+    func jmp(_ address: UInt16) {
+        push16(programCounter - 1)
+        programCounter = address
+    }
+    
     func jsr(_ address: UInt16) {
         push16(programCounter - 1)
         programCounter = address
@@ -156,11 +372,8 @@ class CPU6502 {
         return instruction
     }
     
-    private func getAddress(for instruction: Instruction) -> (address: UInt16, pageCrossed: Bool) {
+    private func operandAddress(for instruction: Instruction) -> UInt16 {
         let address: UInt16
-        //FIXME: Not doing pageCrossed checks yet
-        var pageCrossed = false
-        
         
         switch instruction.operand {
         case let .absolute(addr):
@@ -170,13 +383,11 @@ class CPU6502 {
         case let .absoluteY(offset):
             address = UInt16(registerY) + offset
         case .accumulator:
-            fatalError()
-            break
+            address = instruction.location
         case .immediate:
             address = instruction.location + 1
         case .implied:
             address = instruction.location
-            break
         case let .indexedIndirect(offset):
             address = memory.read16(UInt16(registerX) + UInt16(offset))
         case let .indirect(addr):
@@ -185,9 +396,9 @@ class CPU6502 {
             address = memory.read16(UInt16(offset)) + UInt16(registerX)
         case let .relative(offset):
             if offset < 0x80 {
-                address = UInt16(programCounter) + 2 + UInt16(offset)
+                address = UInt16(instruction.location) + 2 + UInt16(offset)
             } else {
-                address = UInt16(programCounter) + 2 + UInt16(offset) - 0x100
+                address = UInt16(instruction.location) + 2 + UInt16(offset) - 0x100
             }
         case let .zeroPage(addr):
             address = UInt16(addr)
@@ -197,7 +408,7 @@ class CPU6502 {
             address = UInt16(addr + registerY)
         }
         
-        return (address, pageCrossed)
+        return address
     }
     
     

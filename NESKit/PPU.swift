@@ -35,8 +35,65 @@ class PPU {
         case 0x2007:
             return readData()
         default:
-            return 0
+            fatalError()
         }
+    }
+    
+    func writeRegister(_ value: UInt8, to address: UInt16) {
+        register = value
+        
+        switch address {
+        case 0x2000:
+            writeControl(value)
+        case 0x2001:
+            writeMask(value)
+        case 0x2003:
+            writeOAMAddress(value)
+        case 0x2004:
+            writeOAMData(value)
+        case 0x2005:
+            writeScroll(value)
+        case 0x2006:
+            writeAddress(value)
+        case 0x2007:
+            writeData(value)
+        case 0x4014:
+            writeDMA(value)
+        default:
+            fatalError()
+        }
+    }
+    
+    func writeControl(_ value: UInt8) {
+        
+    }
+    
+    func writeMask(_ value: UInt8) {
+        
+    }
+    
+    func writeOAMAddress(_ value: UInt8) {
+        
+    }
+    
+    func writeOAMData(_ value: UInt8) {
+        
+    }
+    
+    func writeScroll(_ value: UInt8) {
+        
+    }
+    
+    func writeAddress(_ value: UInt8) {
+        
+    }
+    
+    func writeData(_ value: UInt8) {
+        
+    }
+    
+    func writeDMA(_ value: UInt8) {
+        
     }
     
     func readStatus() -> UInt8 {

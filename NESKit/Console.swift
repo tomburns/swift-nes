@@ -27,6 +27,9 @@ class Console {
         cpu = CPU6502(memory: cpuMemory)
     }
     
+    func step() throws {
+        try cpu.step()
+    }
     
     lazy var mapper: Mapper = {
         return cartridge.mapper

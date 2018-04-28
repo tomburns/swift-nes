@@ -1,5 +1,5 @@
 //
-//  CPU6502SingleInstructionTests.swift
+//  CPUInstructionTests.swift
 //  NESKitTests
 //
 //  Created by Tom Burns on 4/27/18.
@@ -10,7 +10,7 @@ import XCTest
 
 @testable import NESKit
 
-class CPU6502SingleInstructionTests: XCTestCase {
+class CPUInstructionTests: XCTestCase {
     var subject: CPU6502!
     
     override func setUp() {
@@ -130,5 +130,54 @@ class CPU6502SingleInstructionTests: XCTestCase {
         XCTAssertNoThrow(try subject.step())
         
         XCTAssertTrue(subject.interruptDisable)
+    }
+    
+    func testBEQ() {
+        let ram = UnsafeMutableRawBufferPointer.allocate(byteCount: 2048,
+                                                         alignment: 1)
+        let memory = CPUMemory(ram: ram,
+                               ppu: PPU(),
+                               mapper: DebugReadOnlyPRGMapper(Data([0xF0, 0x02, 0xA9, 0x99, 0xA9, 0xEE])))
+        
+        subject = CPU6502(memory: memory)
+        
+        XCTAssertNoThrow(try subject.step())
+        XCTAssertNoThrow(try subject.step())
+
+        XCTAssertEqual(0xEE, subject.accumulator)
+    }
+    
+    func testBPLNoBranch() {
+        let ram = UnsafeMutableRawBufferPointer.allocate(byteCount: 2048,
+                                                         alignment: 1)
+        let memory = CPUMemory(ram: ram,
+                               ppu: PPU(),
+                               mapper: DebugReadOnlyPRGMapper(Data([0xA9, 0xEF, 0x78, 0x10, 0x02, 0xA9, 0x99, 0xA9, 0xEE])))
+        
+        subject = CPU6502(memory: memory)
+        
+        XCTAssertNoThrow(try subject.step())
+        XCTAssertNoThrow(try subject.step())
+        XCTAssertNoThrow(try subject.step())
+        XCTAssertNoThrow(try subject.step())
+        
+        XCTAssertEqual(0x99, subject.accumulator)
+    }
+    
+    func testBPLBranch() {
+        let ram = UnsafeMutableRawBufferPointer.allocate(byteCount: 2048,
+                                                         alignment: 1)
+        let memory = CPUMemory(ram: ram,
+                               ppu: PPU(),
+                               mapper: DebugReadOnlyPRGMapper(Data([0xA9, 0x03, 0x78, 0x10, 0x02, 0xA9, 0x99, 0xA9, 0xEE])))
+        
+        subject = CPU6502(memory: memory)
+        
+        XCTAssertNoThrow(try subject.step())
+        XCTAssertNoThrow(try subject.step())
+        XCTAssertNoThrow(try subject.step())
+        XCTAssertNoThrow(try subject.step())
+        
+        XCTAssertEqual(0xEE, subject.accumulator)
     }
 }

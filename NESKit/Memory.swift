@@ -68,7 +68,7 @@ class CPUMemory: Memory {
         case 0x0000..<0x2000:
             ram[Int(address % 0x0800)] = value
         case 0x2000..<0x4000:
-            print("should be writing to PPU register here")
+            ppu.writeRegister(value, to: address)
         case 0x4000..<0x4014:
             print("should be writing to APU register here")
         case 0x4014:

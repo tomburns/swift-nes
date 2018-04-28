@@ -1,5 +1,5 @@
 //
-//  CPU6502BranchROMTests.swift
+//  CPUBranchROMTests.swift
 //  NESKitTests
 //
 //  Created by Tom Burns on 4/27/18.
@@ -10,7 +10,7 @@ import XCTest
 
 @testable import NESKit
 
-class CPU6502BranchROMTests: XCTestCase {
+class CPUBranchROMTests: XCTestCase {
     var subject: CPU6502!
 
     override func setUp() {
@@ -30,6 +30,15 @@ class CPU6502BranchROMTests: XCTestCase {
         subject = console.cpu
         
         //FIXME: Actually run this
+        XCTAssertNoThrow(try subject.step())
+        XCTAssertNoThrow(try subject.step())
+        XCTAssertNoThrow(try subject.step())
+        XCTAssertNoThrow(try subject.step())
+        XCTAssertNoThrow(try subject.step())
+        XCTAssertNoThrow(try subject.step())
+        XCTAssertNoThrow(try subject.step())
+        XCTAssertNoThrow(try subject.step())
+        XCTAssertNoThrow(try subject.step())
         XCTAssertNoThrow(try subject.step())
         XCTAssertNoThrow(try subject.step())
         XCTAssertNoThrow(try subject.step())

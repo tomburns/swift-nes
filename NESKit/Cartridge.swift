@@ -11,6 +11,7 @@ import Foundation
 public class Cartridge: Codable {
     static let validPreamble = Data(bytes: [78, 69, 83, 26]) // "NES^Z"
     
+    var ram: Data
     let prg: Data
     let chr: Data
     
@@ -43,6 +44,8 @@ public class Cartridge: Codable {
         prg = gameData.prefix(romByteCount)
         chr = gameData.suffix(vromByteCount)
         
+        ram = Data.init(count: 4 * 1024)
+        
         assert(chr.count == vromByteCount)
     }
 }
@@ -70,10 +73,14 @@ struct NROM128Mapper: Mapper {
         switch address {
         case 0x0000..<0x2000:
             return cartridge.chr[Int(address)]
+        case 0x6000..<0x8000:
+            return cartridge.ram[Int(address-0x6000)]
         case 0x8000..<0xC000:
-            return cartridge.prg[Int(address-0x8000)]
+//            return cartridge.prg[Int(address-0x8000)]
+            break
         case 0xC000...0xFFFF:
-            return cartridge.prg[Int(address-0xC000)]
+//            return cartridge.prg[Int(address-0xC000)]
+            break
         default:
             fatalError("unsupported NROM-256 read at \(address)")
         }
@@ -82,7 +89,7 @@ struct NROM128Mapper: Mapper {
         
         let value = cartridge.prg[prgAddress]
         
-        print(String(format: "Mapper read %02X from address %04X", value, address))
+//        print(String(format: "Mapper read %02X from address %04X", value, address))
         
         return value
     }

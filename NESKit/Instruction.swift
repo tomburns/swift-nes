@@ -10,15 +10,51 @@ import Foundation
 
 extension CPU6502 {
     enum Opcode: String, Codable {
+        case adc = "ADC"
         case bit = "BIT"
         case lda = "LDA"
+        case ldx = "LDX"
         case nop = "NOP"
         case jsr = "JSR"
         case sei = "SEI"
         case sta = "STA"
+        case pha = "PHA"
+        case jmp = "JMP"
+        case brk = "BRK"
+        case php = "PHP"
+        case rol = "ROL"
+        case ror = "ROR"
+        //case inc = "INC"
+        
+        //Branch Instructions
+        case bpl = "BPL"
+        case beq = "BEQ"
+        case bne = "BNE"
+        
+        //Register Instructions
+        case tax = "TAX"
+        case txa = "TXA"
+        case dex = "DEX"
+        case inx = "INX"
+        case tay = "TAY"
+        case tya = "TYA"
+        case dey = "DEY"
+        case iny = "INY"
         
         init(_ byte: UInt8) throws {
             switch byte {
+            case 0x69, 0x65, 0x75, 0x6D, 0x7D, 0x79, 0x61, 0x71:
+                self = .adc
+            case 0x00:
+                self = .brk
+            case 0x08:
+                self = .php
+            case 0x10:
+                self = .bpl
+            case 0xF0:
+                self = .beq
+            case 0xD0:
+                self = .bne
             case 0x24, 0x2C:
                 self = .bit
             case 0xA9, 0xA5, 0xB5, 0xAD, 0xBD, 0xB9, 0xA1, 0xB1:
@@ -29,6 +65,32 @@ extension CPU6502 {
                 self = .sta
             case 0x78:
                 self = .sei
+            case 0x48:
+                self = .pha
+            case 0xA2, 0xA6, 0xB6, 0xAE, 0xBE:
+                self = .ldx
+            case 0xAA:
+                self = .tax
+            case 0x8A:
+                self = .txa
+            case 0xCA:
+                self = .dex
+            case 0xE8:
+                self = .inx
+            case 0xA8:
+                self = .tay
+            case 0x98:
+                self = .tya
+            case 0x88:
+                self = .dey
+            case 0xC8:
+                self = .iny
+            case 0x4C, 0x6C:
+                self = .jmp
+            case 0x2A, 0x26, 0x36, 0x2E, 0x3E:
+                self = .rol
+            case 0x6A, 0x66, 0x76, 0x6E, 0x7E:
+                self = .ror
             default:
                 throw Error.unsupportedOpcode(byte)
             }
@@ -36,50 +98,12 @@ extension CPU6502 {
         
         static func size(for opcode: UInt8) throws -> Int {
             switch opcode {
-                //BIT:
-            case 0x24:
-                return 2
-            case 0x2C:
-                return 3
-            //LDA:
-            case 0xA9:
-                return 2
-            case 0xA5:
-                return 2
-            case 0xB5:
-                return 2
-            case 0xAD:
-                return 3
-            case 0xBD:
-                return 3
-            case 0xB9:
-                return 3
-            case 0xA1:
-                return 2
-            case 0xB1:
-                return 2
-            //JSR:
-            case 0x20:
-                return 3
-            //SEI:
-            case 0x78:
+            case 0x6A, 0x2A, 0x00, 0x78, 0x9A, 0xBA, 0x48, 0x68, 0x08, 0x28, 0xAA, 0x8A, 0xCA, 0xE8, 0xA8, 0x98, 0x88, 0xC8:
                 return 1
-            //STA:
-            case 0x85:
+            case 0x66, 0x76, 0x26, 0x36, 0x10, 0xF0, 0x24, 0x81, 0x91, 0x85, 0x95, 0xA1, 0xB1, 0xA9, 0xA5, 0xB5, 0xA2, 0xA6, 0xB6, 0xD0:
                 return 2
-            case 0x95:
-                return 2
-            case 0x8D:
+            case 0x6E, 0x7E, 0x2E, 0x3E, 0x2C, 0xAD, 0xBD, 0xB9, 0x20, 0x8D, 0x9D, 0x99, 0xAE, 0xBE, 0x4C, 0x6C:
                 return 3
-            case 0x9D:
-                return 3
-            case 0x99:
-                return 3
-            case 0x81:
-                return 2
-            case 0x91:
-                return 2
-                
             default:
                 throw Error.unsupportedOpcode(opcode)
             }
@@ -112,16 +136,6 @@ extension CPU6502 {
             
         }
         
-        static func name(for opcode: UInt8) throws -> String {
-            switch opcode {
-            case 0xA9, 0xA5, 0xB5, 0xAD, 0xBD, 0xB9, 0xA1, 0xB1:
-                return "LDA"
-            default:
-                throw Error.unsupportedOpcode(opcode)
-            }
-        }
-        
-        
         enum Operand {
             case absolute(UInt16)
             case absoluteX(UInt16)
@@ -144,27 +158,36 @@ extension CPU6502 {
                 }
                 
                 switch data[0] {
-                case 0xA9:
+                case 0x69, 0xA9, 0xA2:
                     self = .immediate(data[1])
-                case 0xA5, 0x85, 0x24:
+                case 0x65, 0x26, 0xA5, 0x85, 0x24, 0xA6, 0x66:
                     self = .zeroPage(data[1])
-                case 0xB5, 0x95:
+                case 0x75, 0x36, 0xB5, 0x95, 0x76:
                     self = .zeroPageX(data[1])
-                case 0xAD, 0x8D, 0x20, 0x2C:
+                case 0xB6:
+                    self = .zeroPageY(data[1])
+                case 0x6D, 0x2E, 0xAD, 0x8D, 0x20, 0x2C, 0xAE, 0x4C, 0x6E:
                     let address = (UInt16(data[2]) << 8) + UInt16(data[1])
                     self = .absolute(address)
-                case 0xBD, 0x9D:
+                case 0x7D, 0x3E, 0xBD, 0x9D, 0x7E:
                     let address = (UInt16(data[2]) << 8) + UInt16(data[1])
                     self = .absoluteX(address)
-                case 0xB9, 0x99:
+                case 0x79, 0xB9, 0x99, 0xBE:
                     let address = (UInt16(data[2]) << 8) + UInt16(data[1])
                     self = .absoluteY(address)
-                case 0xA1, 0x81:
+                case 0x6C:
+                    let address = (UInt16(data[2]) << 8) + UInt16(data[1])
+                    self = .indirect(address)
+                case 0x61, 0xA1, 0x81:
                     self = .indexedIndirect(data[1])
-                case 0xB1, 0x91:
+                case 0x71, 0xB1, 0x91:
                     self = .indirectIndexed(data[1])
-                case 0x78:
+                case 0x00, 0x78, 0x9A, 0xBA, 0x48, 0x68, 0x08, 0x28, 0xAA, 0x8A, 0xCA, 0xE8, 0xA8, 0x98, 0x88, 0xC8, 0xD0:
                     self = .implied
+                case 0xF0, 0x10:
+                    self = .relative(data[1])
+                case 0x2A, 0x6A:
+                    self = .accumulator
                 default:
                     throw Error.unsupportedOpcode(data[0])
                 }
@@ -211,6 +234,8 @@ extension CPU6502.Instruction.Operand: CustomStringConvertible {
             return ""
         case .accumulator:
             return "A"
+        case .relative(let offset):
+            return "\(Int8(bitPattern: offset))"
         default:
             return "???"
         }
