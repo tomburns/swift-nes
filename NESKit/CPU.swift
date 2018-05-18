@@ -114,13 +114,23 @@ class CPU6502 {
             rol(instruction)
         case .ror:
             ror(instruction)
+        case .inc:
+            inc(address)
         }
         
         return 1
     }
     
     func adc(_ address: UInt16) {
+        print("maybe consider implementing ADC")
+    }
+    
+    func inc(_ address: UInt16) {
+        let value = memory.read(address) + 1
         
+        memory.write(value, to: address)
+        setZ(value)
+        setN(value)
     }
     
     func beq(_ instruction: Instruction) {
