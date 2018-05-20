@@ -8,60 +8,62 @@
 
 import Foundation
 
+//swiftlint:disable type_body_length file_length
 class CPU6502 {
     let memory: Memory
-    
+
     var cycles: Int = 0
-    
+
     var programCounter: UInt16 = 0
-    
+
     var stackPointer: UInt8 = 0
-    
+
     var accumulator: UInt8 = 0
     var registerX: UInt8 = 0
     var registerY: UInt8 = 0
-    
+
     var carry: Bool {
         return flags.contains(.carry)
     }
-    
+
     var negative: Bool {
         return flags.contains(.negative)
     }
-    
+
     var zero: Bool {
         return flags.contains(.zero)
     }
-    
+
     var overflow: Bool {
         return flags.contains(.overflow)
     }
-    
+
     var decimalMode: Bool {
         return flags.contains(.decimalMode)
     }
-    
+
     var interruptDisable: Bool {
         return flags.contains(.interruptDisable)
     }
-    
+
     var flags: StateFlags = []
-    
+
     init(memory: Memory) {
         self.memory = memory
         reset()
     }
-    
+
     @discardableResult
+    // swiftlint:disable cyclomatic_complexity function_body_length
     func step() throws -> Int {
         let instruction = try nextInstruction()
 
         print(cpuStateDescription(nextInstruction: instruction))
 
         programCounter += UInt16(instruction.size)
-        
+
         let address = operandAddress(for: instruction)
-        
+
         switch instruction.opcode {
         case .sty:
             sty(instruction)
@@ -177,7 +179,7 @@ class CPU6502 {
     func and(_ instruction: Instruction) {
         let value = memory.read(operandAddress(for: instruction))
         accumulator &= value
-        
+
         setZ(accumulator)
         setN(accumulator)
     }
@@ -206,7 +208,6 @@ class CPU6502 {
         let a: UInt8 = accumulator
         let b: UInt8 = memory.read(operandAddress(for: instruction))
         let c: UInt8 = flags.contains(.carry) ? 1 : 0
-
 
         (accumulator, _) = a.addingReportingOverflow(b)
         (accumulator, _) = accumulator.addingReportingOverflow(c)
@@ -252,8 +253,6 @@ class CPU6502 {
         }
     }
 
-
-
     func cmp(_ instruction: Instruction) {
         let value = memory.read(operandAddress(for: instruction))
         compare(accumulator, to: value)
@@ -295,7 +294,7 @@ class CPU6502 {
     func cld() {
         flags.remove(.decimalMode)
     }
-    
+
     func txs() {
         stackPointer = registerX
     }
@@ -309,15 +308,15 @@ class CPU6502 {
     func plp() {
         setFlags(pull() & 0xEF | 0x20)
     }
-    
+
     func inc(_ address: UInt16) {
         let value = memory.read(address) + 1
-        
+
         memory.write(value, to: address)
         setZ(value)
         setN(value)
     }
-    
+
     func beq(_ instruction: Instruction) {
         if zero {
             programCounter = operandAddress(for: instruction)
@@ -348,7 +347,7 @@ class CPU6502 {
 
     func bit(_ address: UInt16) {
         let value = memory.read(address)
-        
+
         setN(value)
         setZ(value & accumulator)
 
@@ -358,7 +357,7 @@ class CPU6502 {
             flags.remove(.overflow)
         }
     }
-    
+
     func bpl(_ instruction: Instruction) {
         if !negative {
             programCounter = operandAddress(for: instruction)
@@ -393,18 +392,18 @@ class CPU6502 {
         sei()
         programCounter = memory.read16(0xFFFE)
     }
-    
+
     func rol(_ instruction: Instruction) {
         switch instruction.operand {
         case .accumulator:
             let carried: UInt8 = carry ? 1 : 0
-            
+
             if (accumulator >> 7) & 1 == 1 {
                 flags.insert(.carry)
             } else {
                 flags.remove(.carry)
             }
-            
+
             accumulator = (accumulator << 1 ) | carried
             setZ(accumulator)
             setN(accumulator)
@@ -412,15 +411,15 @@ class CPU6502 {
             let address = operandAddress(for: instruction)
             let initial = memory.read(address)
             let carried: UInt8 = carry ? 1 : 0
-            
+
             if (initial >> 7) & 1 == 1 {
                 flags.insert(.carry)
             } else {
                 flags.remove(.carry)
             }
-            
+
             let value = (initial << 1 | carried)
-            
+
             memory.write(value, to: address)
             setZ(value)
             setN(value)
@@ -459,13 +458,13 @@ class CPU6502 {
         switch instruction.operand {
         case .accumulator:
             let carried: UInt8 = carry ? 1 : 0
-            
+
             if (accumulator & 1) == 1 {
                 flags.insert(.carry)
             } else {
                 flags.remove(.carry)
             }
-            
+
             accumulator = (accumulator >> 1 ) | (carried << 7)
             setZ(accumulator)
             setN(accumulator)
@@ -473,88 +472,88 @@ class CPU6502 {
             let address = operandAddress(for: instruction)
             let initial = memory.read(address)
             let carried: UInt8 = carry ? 1 : 0
-            
+
             if (initial >> 7) & 1 == 1 {
                 flags.insert(.carry)
             } else {
                 flags.remove(.carry)
             }
-            
+
             let value = (initial >> 1)  | (carried << 7)
-            
+
             memory.write(value, to: address)
             setZ(accumulator)
             setN(accumulator)
         }
     }
-    
+
     func pha() {
         push(accumulator)
     }
-    
+
     func php() {
         push(flags.rawValue | 0x10)
     }
-    
+
     func tax() {
         registerX = accumulator
 
         setZ(registerX)
 
     }
-    
+
     func txa() {
         accumulator = registerX
 
         setZ(accumulator)
     }
-    
+
     func dex() {
         (registerX, _) = registerY.subtractingReportingOverflow(1)
 
         setZ(registerX)
     }
-    
+
     func inx() {
         (registerX, _) = registerY.addingReportingOverflow(1)
 
         setZ(registerX)
     }
-    
+
     func tay() {
         registerY = accumulator
 
         setZ(registerY)
 
     }
-    
+
     func tya() {
         accumulator = registerY
 
         setZ(accumulator)
 
     }
-    
+
     func iny() {
         (registerY, _) = registerY.addingReportingOverflow(1)
 
         setZ(registerY)
     }
-    
+
     func dey() {
         (registerY, _) = registerY.subtractingReportingOverflow(1)
 
         setZ(registerY)
     }
-    
+
     private func addBranchCycles(for instruction: Instruction) {
         cycles += 1
-        
+
         if pagesDiffer(instruction.location, operandAddress(for: instruction)) {
             cycles += 1
         }
     }
-    
+
     func pagesDiffer(_ a: UInt16, _ b: UInt16) -> Bool {
         return a&0xFF00 != b&0xFF00
     }
@@ -574,15 +573,15 @@ class CPU6502 {
             flags.remove(.zero)
         }
     }
-    
+
     func setN(_ value: UInt8) {
-        if (value  >> 7) > 0  {
+        if (value  >> 7) > 0 {
             flags.insert(.negative)
         } else {
             flags.remove(.negative)
         }
     }
-    
+
     func setV(_ value: UInt8) {
         if (value  >> 6) >= 0 {
             flags.insert(.overflow)
@@ -590,17 +589,17 @@ class CPU6502 {
             flags.remove(.overflow)
         }
     }
-    
+
     func lda(_ address: UInt16) {
         accumulator = memory.read(address)
-        
+
         setZ(accumulator)
         setN(accumulator)
     }
-    
+
     func ldx(_ address: UInt16) {
         registerX = memory.read(address)
-        
+
         setZ(registerX)
         setN(registerX)
     }
@@ -615,16 +614,16 @@ class CPU6502 {
     func jmp(_ address: UInt16) {
         programCounter = address
     }
-    
+
     func jsr(_ address: UInt16) {
         push16(programCounter - 1)
         programCounter = address
     }
-    
+
     func sei() {
         flags.insert(.interruptDisable)
     }
-    
+
     func sta(_ address: UInt16) {
         memory.write(accumulator, to: address)
     }
@@ -642,7 +641,7 @@ class CPU6502 {
         memory.write(value, to: 0x100|UInt16(stackPointer))
         stackPointer -= 1
     }
-    
+
     func push16(_ value: UInt16) {
         push(UInt8(value >> 8))
         push(UInt8(value & 0xFF))
@@ -659,21 +658,21 @@ class CPU6502 {
 
         return high << 8 | low
     }
-    
+
     private func nextInstruction() throws -> Instruction {
         let opcodeByte = memory.read(programCounter)
         let size = try Opcode.size(for: opcodeByte)
-        
+
         let bytes = (UInt16(0)..<UInt16(size)).map { memory.read($0 + programCounter) }
-        
+
         let instruction = try Instruction(Data(bytes), location: programCounter)
-        
+
         return instruction
     }
-    
+
     private func operandAddress(for instruction: Instruction) -> UInt16 {
         let address: UInt16
-        
+
         switch instruction.operand {
         case let .absolute(addr):
             address = addr
@@ -706,11 +705,10 @@ class CPU6502 {
         case let .zeroPageY(addr):
             address = UInt16(addr + registerY)
         }
-        
+
         return address
     }
-    
-    
+
     func reset() {
         programCounter = memory.read16(0xFFFC)
         stackPointer = 0xFD
@@ -729,20 +727,18 @@ class CPU6502 {
             flags.remove(.carry)
         }
     }
-    
+
     enum Interrupt: Int {
         case none
         case nmi
         case irq
     }
 
-
-    
     struct StateFlags: OptionSet, Codable {
         let rawValue: UInt8
-        
+
         static let initialState = StateFlags(rawValue: 0x24)
-        
+
         static let carry = StateFlags(rawValue: 1 << 0)
         static let zero = StateFlags(rawValue: 1 << 1)
         static let interruptDisable = StateFlags(rawValue: 1 << 2)
@@ -761,7 +757,7 @@ class CPU6502 {
             .joined()
             .padding(toLength: 10, withPad: " ", startingAt: 0)
 
-        let stateInfo = String(format:"A:%02X X:%02X Y:%02X P:%02X SP:%02X CYC:%03d",
+        let stateInfo = String(format: "A:%02X X:%02X Y:%02X P:%02X SP:%02X CYC:%03d",
                                accumulator,
                                registerX,
                                registerY,
@@ -773,4 +769,3 @@ class CPU6502 {
         return (cursor + bytes + instruction.description).padding(toLength: 48, withPad: " ", startingAt: 0) + stateInfo
     }
 }
-

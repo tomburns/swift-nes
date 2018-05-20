@@ -18,24 +18,24 @@ extension Memory {
     func read16(_ address: UInt16) -> UInt16 {
         let high = read(address+1)
         let low = read(address)
-        
+
         return (UInt16(high) << 8) + UInt16(low)
     }
 }
 
 class CPUMemory: Memory {
     private let ram: UnsafeMutableRawBufferPointer
-    
+
     private let mapper: Mapper
-    
+
     private let ppu: PPU
-    
+
     init(ram: UnsafeMutableRawBufferPointer, ppu: PPU, mapper: Mapper) {
         self.mapper = mapper
         self.ram = ram
         self.ppu = ppu
     }
-    
+
     func read(_ address: UInt16) -> UInt8 {
         switch address {
         case 0x0000..<0x2000:
@@ -62,7 +62,7 @@ class CPUMemory: Memory {
             fatalError(String(format: "illegal/unsupported cpu memory read: 0x%04X", address))
         }
     }
-    
+
     func write(_ value: UInt8, to address: UInt16) {
         switch address {
         case 0x0000..<0x2000:
@@ -92,21 +92,21 @@ class CPUMemory: Memory {
 extension UnsafeMutableRawBufferPointer: Codable {
     public init(from decoder: Decoder) throws {
         var container = try decoder.unkeyedContainer()
-        
+
         var bytes: [UInt8] = []
-        
+
         while let next = try? container.decode(UInt8.self) {
             bytes.append(next)
         }
-        
+
         self = .allocate(byteCount: bytes.count, alignment: 1)
-        
+
         self.copyBytes(from: bytes)
     }
-    
+
     public func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
-        
+
         try container.encode(self)
     }
 }

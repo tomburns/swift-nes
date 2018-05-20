@@ -34,6 +34,9 @@
 		1F8B9ABE2094F3EF005ED998 /* all_instrs.nes in Resources */ = {isa = PBXBuildFile; fileRef = 1F8B9ABB2094F3EE005ED998 /* all_instrs.nes */; };
 		1F8B9ABF2094F3EF005ED998 /* official_only.nes in Resources */ = {isa = PBXBuildFile; fileRef = 1F8B9ABC2094F3EF005ED998 /* official_only.nes */; };
 		1F8B9AC12094F3FA005ED998 /* CPUInstructionROMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B9AC02094F3FA005ED998 /* CPUInstructionROMTests.swift */; };
+		C56A6F9F961942C6312BEAF4 /* Pods_NESKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB50D8DFAAB7AFC79CC7BDF /* Pods_NESKit.framework */; };
+		F25F044FEDBF30479B000918 /* Pods_NESKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8526ABC6940BAF0DF2648ED8 /* Pods_NESKitTests.framework */; };
+		F456205C7CFCD0FD60421852 /* Pods_swift_nes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 777DEE9819469AEA391731E2 /* Pods_swift_nes.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +69,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0405E28452BA820ED9867CBB /* Pods-NESKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NESKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NESKit/Pods-NESKit.debug.xcconfig"; sourceTree = "<group>"; };
 		1F53471D20B09FBA00F0857A /* nestest.nes */ = {isa = PBXFileReference; lastKnownFileType = file; path = nestest.nes; sourceTree = "<group>"; };
 		1F53471E20B09FC600F0857A /* NESTestROMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NESTestROMTests.swift; sourceTree = "<group>"; };
 		1F53472120B0A7D900F0857A /* nestest.log */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = nestest.log; sourceTree = "<group>"; };
@@ -97,6 +101,14 @@
 		1F8B9ABB2094F3EE005ED998 /* all_instrs.nes */ = {isa = PBXFileReference; lastKnownFileType = file; path = all_instrs.nes; sourceTree = "<group>"; };
 		1F8B9ABC2094F3EF005ED998 /* official_only.nes */ = {isa = PBXFileReference; lastKnownFileType = file; path = official_only.nes; sourceTree = "<group>"; };
 		1F8B9AC02094F3FA005ED998 /* CPUInstructionROMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUInstructionROMTests.swift; sourceTree = "<group>"; };
+		364F2E99CB899DF3405C81D4 /* Pods-swift-nes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-swift-nes.debug.xcconfig"; path = "Pods/Target Support Files/Pods-swift-nes/Pods-swift-nes.debug.xcconfig"; sourceTree = "<group>"; };
+		763F1DE2468F37BFCE1EC21E /* Pods-NESKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NESKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-NESKit/Pods-NESKit.release.xcconfig"; sourceTree = "<group>"; };
+		777DEE9819469AEA391731E2 /* Pods_swift_nes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_swift_nes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8526ABC6940BAF0DF2648ED8 /* Pods_NESKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NESKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		88C80CBB2A8D5F10786E545D /* Pods-NESKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NESKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-NESKitTests/Pods-NESKitTests.release.xcconfig"; sourceTree = "<group>"; };
+		BCA3B712EEF417A15277013F /* Pods-swift-nes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-swift-nes.release.xcconfig"; path = "Pods/Target Support Files/Pods-swift-nes/Pods-swift-nes.release.xcconfig"; sourceTree = "<group>"; };
+		D0AFC52D7E6ED4BFC27FFCDA /* Pods-NESKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NESKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NESKitTests/Pods-NESKitTests.debug.xcconfig"; sourceTree = "<group>"; };
+		EEB50D8DFAAB7AFC79CC7BDF /* Pods_NESKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NESKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +117,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F8B9A8E208F96C7005ED998 /* NESKit.framework in Frameworks */,
+				F456205C7CFCD0FD60421852 /* Pods_swift_nes.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +125,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C56A6F9F961942C6312BEAF4 /* Pods_NESKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,6 +134,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F8B9A7D208F962A005ED998 /* NESKit.framework in Frameworks */,
+				F25F044FEDBF30479B000918 /* Pods_NESKitTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,6 +159,7 @@
 				1F8B9A80208F962A005ED998 /* NESKitTests */,
 				1F8B9A4A208F95BA005ED998 /* Products */,
 				1F8B9A8D208F96C7005ED998 /* Frameworks */,
+				8FE151E1C2C319FB4E5CE84D /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -195,6 +211,9 @@
 		1F8B9A8D208F96C7005ED998 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EEB50D8DFAAB7AFC79CC7BDF /* Pods_NESKit.framework */,
+				8526ABC6940BAF0DF2648ED8 /* Pods_NESKitTests.framework */,
+				777DEE9819469AEA391731E2 /* Pods_swift_nes.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -243,6 +262,19 @@
 			path = "Instruction Tests";
 			sourceTree = "<group>";
 		};
+		8FE151E1C2C319FB4E5CE84D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				0405E28452BA820ED9867CBB /* Pods-NESKit.debug.xcconfig */,
+				763F1DE2468F37BFCE1EC21E /* Pods-NESKit.release.xcconfig */,
+				D0AFC52D7E6ED4BFC27FFCDA /* Pods-NESKitTests.debug.xcconfig */,
+				88C80CBB2A8D5F10786E545D /* Pods-NESKitTests.release.xcconfig */,
+				364F2E99CB899DF3405C81D4 /* Pods-swift-nes.debug.xcconfig */,
+				BCA3B712EEF417A15277013F /* Pods-swift-nes.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -261,6 +293,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1F8B9A50208F95BA005ED998 /* Build configuration list for PBXNativeTarget "swift-nes" */;
 			buildPhases = (
+				A21A18D7E77CB67A23D1E9E1 /* [CP] Check Pods Manifest.lock */,
 				1F8B9A45208F95BA005ED998 /* Sources */,
 				1F8B9A46208F95BA005ED998 /* Frameworks */,
 				1F8B9A47208F95BA005ED998 /* CopyFiles */,
@@ -279,6 +312,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1F8B9A85208F962A005ED998 /* Build configuration list for PBXNativeTarget "NESKit" */;
 			buildPhases = (
+				1B53EF40CAF527DB5672FD92 /* [CP] Check Pods Manifest.lock */,
+				1F2EDFF020B1E8BB004ABEDE /* SwiftLint */,
 				1F8B9A6F208F962A005ED998 /* Sources */,
 				1F8B9A70208F962A005ED998 /* Frameworks */,
 				1F8B9A71208F962A005ED998 /* Headers */,
@@ -297,6 +332,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1F8B9A88208F962A005ED998 /* Build configuration list for PBXNativeTarget "NESKitTests" */;
 			buildPhases = (
+				2359D47F24ED04FF2E87DFA8 /* [CP] Check Pods Manifest.lock */,
 				1F8B9A78208F962A005ED998 /* Sources */,
 				1F8B9A79208F962A005ED998 /* Frameworks */,
 				1F8B9A7A208F962A005ED998 /* Resources */,
@@ -375,6 +411,77 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1B53EF40CAF527DB5672FD92 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-NESKit-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1F2EDFF020B1E8BB004ABEDE /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"";
+		};
+		2359D47F24ED04FF2E87DFA8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-NESKitTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A21A18D7E77CB67A23D1E9E1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-swift-nes-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1F8B9A45208F95BA005ED998 /* Sources */ = {
@@ -546,6 +653,7 @@
 		};
 		1F8B9A51208F95BA005ED998 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 364F2E99CB899DF3405C81D4 /* Pods-swift-nes.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 25ELC7FF69;
@@ -556,6 +664,7 @@
 		};
 		1F8B9A52208F95BA005ED998 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BCA3B712EEF417A15277013F /* Pods-swift-nes.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 25ELC7FF69;
@@ -566,6 +675,7 @@
 		};
 		1F8B9A86208F962A005ED998 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0405E28452BA820ED9867CBB /* Pods-NESKit.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -597,6 +707,7 @@
 		};
 		1F8B9A87208F962A005ED998 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 763F1DE2468F37BFCE1EC21E /* Pods-NESKit.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -627,6 +738,7 @@
 		};
 		1F8B9A89208F962A005ED998 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0AFC52D7E6ED4BFC27FFCDA /* Pods-NESKitTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -646,6 +758,7 @@
 		};
 		1F8B9A8A208F962A005ED998 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 88C80CBB2A8D5F10786E545D /* Pods-NESKitTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

@@ -11,19 +11,22 @@ import XCTest
 @testable import NESKit
 
 class DecompilerTests: XCTestCase {
-    
+
     func testLDAInstructions() {
         let subject = CPU6502.Decompiler { print($0) }
-        
-        let result = try? subject.parse(Data(bytes: [0xA9, 0x23, 0xA5, 0x45, 0xB5, 0x67, 0xAD, 0x89, 0xAB, 0xBD, 0xCD, 0xEF, 0xB9, 0x01, 0xA1, 0xB1, 0x86, 0xA1, 0x69]))
-        
+
+        let result = try? subject.parse(
+            Data(bytes: [0xA9, 0x23, 0xA5, 0x45, 0xB5,
+                         0x67, 0xAD, 0x89, 0xAB, 0xBD,
+                         0xCD, 0xEF, 0xB9, 0x01, 0xA1,
+                         0xB1, 0x86, 0xA1, 0x69]))
+
         XCTAssertEqual(result, ldaExpected)
-        
+
         print(result ?? "Failed to parse in \(#function)")
-        
+
     }
 }
-
 
 private let ldaExpected = """
 LDA #$23

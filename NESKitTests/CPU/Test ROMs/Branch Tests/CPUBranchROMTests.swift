@@ -17,18 +17,18 @@ class CPUBranchROMTests: XCTestCase {
         super.setUp()
         subject = nil
     }
-    
+
     func testBranchBasicsROM() {
-        
+
         let romURL = Bundle(for: CartridgeTests.self).url(forResource: "1.Branch_Basics", withExtension: "nes")!
         let romData = try! Data(contentsOf: romURL)
-        
+
         let cartridge = try! Cartridge(data: romData)
-        
+
         let console = Console(cartridge: cartridge)
-        
+
         subject = console.cpu
-        
+
         //FIXME: Actually run this
         XCTAssertNoThrow(try subject.step())
         XCTAssertNoThrow(try subject.step())
@@ -48,5 +48,5 @@ class CPUBranchROMTests: XCTestCase {
         XCTAssertNoThrow(try subject.step())
         XCTAssertNoThrow(try subject.step())
     }
-    
+
 }
