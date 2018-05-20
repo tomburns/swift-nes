@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F53471F20B0A02100F0857A /* NESTestROMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F53471E20B09FC600F0857A /* NESTestROMTests.swift */; };
+		1F53472020B0A03700F0857A /* nestest.nes in Resources */ = {isa = PBXBuildFile; fileRef = 1F53471D20B09FBA00F0857A /* nestest.nes */; };
+		1F53472220B0A7D900F0857A /* nestest.log in Resources */ = {isa = PBXBuildFile; fileRef = 1F53472120B0A7D900F0857A /* nestest.log */; };
 		1F8B9A4D208F95BA005ED998 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B9A4C208F95BA005ED998 /* main.swift */; };
 		1F8B9A7D208F962A005ED998 /* NESKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F8B9A74208F962A005ED998 /* NESKit.framework */; };
 		1F8B9A82208F962A005ED998 /* NESKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B9A81208F962A005ED998 /* NESKitTests.swift */; };
@@ -63,6 +66,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1F53471D20B09FBA00F0857A /* nestest.nes */ = {isa = PBXFileReference; lastKnownFileType = file; path = nestest.nes; sourceTree = "<group>"; };
+		1F53471E20B09FC600F0857A /* NESTestROMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NESTestROMTests.swift; sourceTree = "<group>"; };
+		1F53472120B0A7D900F0857A /* nestest.log */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = nestest.log; sourceTree = "<group>"; };
 		1F8B9A49208F95BA005ED998 /* swift-nes */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "swift-nes"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F8B9A4C208F95BA005ED998 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		1F8B9A74208F962A005ED998 /* NESKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NESKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -120,6 +126,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1F53471C20B09FA500F0857A /* NESTest */ = {
+			isa = PBXGroup;
+			children = (
+				1F53471D20B09FBA00F0857A /* nestest.nes */,
+				1F53472120B0A7D900F0857A /* nestest.log */,
+				1F53471E20B09FC600F0857A /* NESTestROMTests.swift */,
+			);
+			path = NESTest;
+			sourceTree = "<group>";
+		};
 		1F8B9A40208F95BA005ED998 = {
 			isa = PBXGroup;
 			children = (
@@ -209,6 +225,7 @@
 		1F8B9AB82094F3AE005ED998 /* Test ROMs */ = {
 			isa = PBXGroup;
 			children = (
+				1F53471C20B09FA500F0857A /* NESTest */,
 				1F8B9AB92094F3C8005ED998 /* Instruction Tests */,
 				1F8B9A99208FB506005ED998 /* Branch Tests */,
 			);
@@ -347,11 +364,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F53472220B0A7D900F0857A /* nestest.log in Resources */,
 				1F8B9ABF2094F3EF005ED998 /* official_only.nes in Resources */,
 				1F8B9A9D208FB518005ED998 /* 1.Branch_Basics.nes in Resources */,
 				1F8B9A9F208FB518005ED998 /* 3.Forward_Branch.nes in Resources */,
 				1F8B9ABE2094F3EF005ED998 /* all_instrs.nes in Resources */,
 				1F8B9A9E208FB518005ED998 /* 2.Backward_Branch.nes in Resources */,
+				1F53472020B0A03700F0857A /* nestest.nes in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -388,6 +407,7 @@
 				1F8B9AC12094F3FA005ED998 /* CPUInstructionROMTests.swift in Sources */,
 				1F8B9A82208F962A005ED998 /* NESKitTests.swift in Sources */,
 				1F8B9AB320937A49005ED998 /* CPUInstructionTests.swift in Sources */,
+				1F53471F20B0A02100F0857A /* NESTestROMTests.swift in Sources */,
 				1F8B9AAD2091354E005ED998 /* DecompilerTests.swift in Sources */,
 				1F8B9AAF20924797005ED998 /* InstructionTests.swift in Sources */,
 				1F8B9AB520937A66005ED998 /* CPUBranchROMTests.swift in Sources */,

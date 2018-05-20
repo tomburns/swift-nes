@@ -54,18 +54,29 @@ class CPU6502 {
     
     @discardableResult
     func step() throws -> Int {
-        
         let instruction = try nextInstruction()
-        
-        print(String(format:" %02X\t\t%@",programCounter, instruction.description))
-        
+
+        print(cpuStateDescription(nextInstruction: instruction))
+
         programCounter += UInt16(instruction.size)
         
         let address = operandAddress(for: instruction)
         
         switch instruction.opcode {
+        case .sty:
+            sty(instruction)
         case .adc:
-            adc(address)
+            adc(instruction)
+        case .eor:
+            eor(instruction)
+        case .clv:
+            clv()
+        case .cld:
+            cld()
+        case .cmp:
+            cmp(instruction)
+        case .and:
+            and(instruction)
         case .brk:
             brk()
         case .beq:
@@ -74,12 +85,24 @@ class CPU6502 {
             bne(instruction)
         case .bpl:
             bpl(instruction)
+        case .bcs:
+            bcs(instruction)
+        case .bcc:
+            bcc(instruction)
         case .bit:
             bit(address)
+        case .bvs:
+            bvs(instruction)
         case .lda:
             lda(address)
         case .ldx:
             ldx(address)
+        case .ldy:
+            ldy(instruction)
+        case .cpx:
+            cpx(instruction)
+        case .cpy:
+            cpy(instruction)
         case .jsr:
             jsr(address)
         case .sei:
@@ -116,13 +139,175 @@ class CPU6502 {
             ror(instruction)
         case .inc:
             inc(address)
+        case .lsr:
+            lsr(instruction)
+        case .rti:
+            rti()
+        case .stx:
+            stx(instruction)
+        case .sec:
+            sec()
+        case .clc:
+            clc()
+        case .bmi:
+            bmi(instruction)
+        case .bvc:
+            bvc(instruction)
+        case .rts:
+            rts()
+        case .sed:
+            sed()
+        case .pla:
+            pla()
+        case .txs:
+            txs()
+        case .tsx:
+            tsx()
+        case .plp:
+            plp()
+        case .ora:
+            ora(instruction)
+        case .sbc:
+            sbc(instruction)
         }
-        
+
         return 1
     }
+
+    func and(_ instruction: Instruction) {
+        let value = memory.read(operandAddress(for: instruction))
+        accumulator &= value
+        
+        setZ(accumulator)
+        setN(accumulator)
+    }
+
+    func ora(_ instruction: Instruction) {
+        let value = memory.read(operandAddress(for: instruction))
+        accumulator |= value
+
+        setZ(accumulator)
+        setN(accumulator)
+    }
+
+    func cpx(_ instruction: Instruction) {
+        let value = memory.read(operandAddress(for: instruction))
+
+        compare(registerX, to: value)
+    }
+
+    func cpy(_ instruction: Instruction) {
+        let value = memory.read(operandAddress(for: instruction))
+
+        compare(registerY, to: value)
+    }
+
+    func adc(_ instruction: Instruction) {
+        let a: UInt8 = accumulator
+        let b: UInt8 = memory.read(operandAddress(for: instruction))
+        let c: UInt8 = flags.contains(.carry) ? 1 : 0
+
+
+        (accumulator, _) = a.addingReportingOverflow(b)
+        (accumulator, _) = accumulator.addingReportingOverflow(c)
+
+        if (a^b) & 0x80 == 0 && (a^accumulator) & 0x80 != 0 {
+            flags.insert(.overflow)
+        } else {
+            flags.remove(.overflow)
+        }
+
+        setZ(accumulator)
+        setN(accumulator)
+
+        if (Int(a) + Int(b) + Int(c)) > 0xFF {
+            flags.insert(.carry)
+        } else {
+            flags.remove(.carry)
+        }
+    }
+
+    func sbc(_ instruction: Instruction) {
+        let a: UInt8 = accumulator
+        let b: UInt8 = memory.read(operandAddress(for: instruction))
+        let c: UInt8 = flags.contains(.carry) ? 1 : 0
+
+        accumulator = a
+            .subtractingReportingOverflow(b).partialValue
+            .subtractingReportingOverflow(1 - c).partialValue
+
+        setZ(accumulator)
+        setN(accumulator)
+
+        if (Int(a) - Int(b) - Int(1 - c)) >= 0 {
+            flags.insert(.carry)
+        } else {
+            flags.remove(.carry)
+        }
+
+        if (a^b) & 0x80 != 0 && (a^accumulator) & 0x80 != 0 {
+            flags.insert(.overflow)
+        } else {
+            flags.remove(.overflow)
+        }
+    }
+
+
+
+    func cmp(_ instruction: Instruction) {
+        let value = memory.read(operandAddress(for: instruction))
+        compare(accumulator, to: value)
+    }
+
+    func sec() {
+        flags.insert(.carry)
+    }
+
+    func clc() {
+        flags.remove(.carry)
+    }
+
+    func clv() {
+        flags.remove(.overflow)
+    }
+
+    func eor(_ instruction: Instruction) {
+        let value = memory.read(operandAddress(for: instruction))
+        accumulator ^= value
+        setZ(accumulator)
+        setN(accumulator)
+    }
+
+    func stx(_ instruction: Instruction) {
+        memory.write(registerX, to: operandAddress(for: instruction))
+    }
+
+    func sty(_ instruction: Instruction) {
+        memory.write(registerY, to: operandAddress(for: instruction))
+    }
+
+    func pla() {
+        accumulator = pull()
+        setZ(accumulator)
+        setN(accumulator)
+    }
+
+    func cld() {
+        flags.remove(.decimalMode)
+    }
     
-    func adc(_ address: UInt16) {
-        print("maybe consider implementing ADC")
+    func txs() {
+        stackPointer = registerX
+    }
+
+    func tsx() {
+        registerX = stackPointer
+        setZ(registerX)
+        setN(registerX)
+    }
+
+    func plp() {
+        setFlags(pull() & 0xEF | 0x20)
     }
     
     func inc(_ address: UInt16) {
@@ -134,24 +319,43 @@ class CPU6502 {
     }
     
     func beq(_ instruction: Instruction) {
+        if zero {
+            programCounter = operandAddress(for: instruction)
+            addBranchCycles(for: instruction)
+        }
+    }
+
+    func bne(_ instruction: Instruction) {
         if !zero {
             programCounter = operandAddress(for: instruction)
             addBranchCycles(for: instruction)
         }
     }
-    
+
+    func bmi(_ instruction: Instruction) {
+        if negative {
+            programCounter = operandAddress(for: instruction)
+            addBranchCycles(for: instruction)
+        }
+    }
+
+    func bvc(_ instruction: Instruction) {
+        if !overflow {
+            programCounter = operandAddress(for: instruction)
+            addBranchCycles(for: instruction)
+        }
+    }
+
     func bit(_ address: UInt16) {
         let value = memory.read(address)
         
         setN(value)
-        setV(value)
         setZ(value & accumulator)
-    }
-    
-    func bne(_ instruction: Instruction) {
-        if zero {
-            programCounter = operandAddress(for: instruction)
-            addBranchCycles(for: instruction)
+
+        if (value >> 6) & 1 == 1 {
+            flags.insert(.overflow)
+        } else {
+            flags.remove(.overflow)
         }
     }
     
@@ -161,7 +365,28 @@ class CPU6502 {
             addBranchCycles(for: instruction)
         }
     }
-    
+
+    func bcs(_ instruction: Instruction) {
+        if carry {
+            programCounter = operandAddress(for: instruction)
+            addBranchCycles(for: instruction)
+        }
+    }
+
+    func bcc(_ instruction: Instruction) {
+        if !carry {
+            programCounter = operandAddress(for: instruction)
+            addBranchCycles(for: instruction)
+        }
+    }
+
+    func bvs(_ instruction: Instruction) {
+        if overflow {
+            programCounter = operandAddress(for: instruction)
+            addBranchCycles(for: instruction)
+        }
+    }
+
     func brk() {
         push16(programCounter)
         php()
@@ -201,7 +426,35 @@ class CPU6502 {
             setN(value)
         }
     }
-    
+
+    func lsr(_ instruction: Instruction) {
+        switch instruction.operand {
+        case .accumulator:
+            setC(accumulator)
+
+            accumulator = accumulator >> 1
+            setZ(accumulator)
+            setN(accumulator)
+        default:
+            let address = operandAddress(for: instruction)
+            let initial = memory.read(address)
+            setC(initial)
+
+            let result = initial >> 1
+            memory.write(result, to: address)
+            setZ(result)
+            setN(result)
+        }
+    }
+
+    func rts() {
+        programCounter = pull16() + 1
+    }
+
+    func sed() {
+        flags.insert(.decimalMode)
+    }
+
     func ror(_ instruction: Instruction) {
         switch instruction.operand {
         case .accumulator:
@@ -245,34 +498,53 @@ class CPU6502 {
     
     func tax() {
         registerX = accumulator
+
+        setZ(registerX)
+
     }
     
     func txa() {
         accumulator = registerX
+
+        setZ(accumulator)
     }
     
     func dex() {
-        registerX -= 1
+        (registerX, _) = registerY.subtractingReportingOverflow(1)
+
+        setZ(registerX)
     }
     
     func inx() {
-        registerX += 1
+        (registerX, _) = registerY.addingReportingOverflow(1)
+
+        setZ(registerX)
     }
     
     func tay() {
         registerY = accumulator
+
+        setZ(registerY)
+
     }
     
     func tya() {
         accumulator = registerY
+
+        setZ(accumulator)
+
     }
     
     func iny() {
-        registerY += 1
+        (registerY, _) = registerY.addingReportingOverflow(1)
+
+        setZ(registerY)
     }
     
     func dey() {
-        registerY -= 1
+        (registerY, _) = registerY.subtractingReportingOverflow(1)
+
+        setZ(registerY)
     }
     
     private func addBranchCycles(for instruction: Instruction) {
@@ -286,7 +558,15 @@ class CPU6502 {
     func pagesDiffer(_ a: UInt16, _ b: UInt16) -> Bool {
         return a&0xFF00 != b&0xFF00
     }
-    
+
+    func setC(_ value: UInt8) {
+        if value & 1 == 1 {
+            flags.insert(.carry)
+        } else {
+            flags.remove(.carry)
+        }
+    }
+
     func setZ(_ value: UInt8) {
         if value == 0 {
             flags.insert(.zero)
@@ -304,7 +584,7 @@ class CPU6502 {
     }
     
     func setV(_ value: UInt8) {
-        if (value  >> 6) > 0 {
+        if (value  >> 6) >= 0 {
             flags.insert(.overflow)
         } else {
             flags.remove(.overflow)
@@ -314,37 +594,25 @@ class CPU6502 {
     func lda(_ address: UInt16) {
         accumulator = memory.read(address)
         
-        if accumulator == 0 {
-            flags.insert(.zero)
-        } else {
-            flags.remove(.zero)
-        }
-        
-        if accumulator.leadingZeroBitCount == 0 {
-            flags.insert(.negative)
-        } else {
-            flags.remove(.negative)
-        }
+        setZ(accumulator)
+        setN(accumulator)
     }
     
     func ldx(_ address: UInt16) {
         registerX = memory.read(address)
         
-        if accumulator == 0 {
-            flags.insert(.zero)
-        } else {
-            flags.remove(.zero)
-        }
-        
-        if accumulator.leadingZeroBitCount == 0 {
-            flags.insert(.negative)
-        } else {
-            flags.remove(.negative)
-        }
+        setZ(registerX)
+        setN(registerX)
     }
-    
+
+    func ldy(_ instruction: Instruction) {
+        registerY = memory.read(operandAddress(for: instruction))
+
+        setZ(registerY)
+        setN(registerY)
+    }
+
     func jmp(_ address: UInt16) {
-        push16(programCounter - 1)
         programCounter = address
     }
     
@@ -360,7 +628,16 @@ class CPU6502 {
     func sta(_ address: UInt16) {
         memory.write(accumulator, to: address)
     }
-    
+
+    func rti() {
+        setFlags(pull() & 0xEF | 0x20)
+        programCounter = pull16()
+    }
+
+    func setFlags(_ byte: UInt8) {
+        flags = StateFlags(rawValue: byte)
+    }
+
     func push(_ value: UInt8) {
         memory.write(value, to: 0x100|UInt16(stackPointer))
         stackPointer -= 1
@@ -369,6 +646,18 @@ class CPU6502 {
     func push16(_ value: UInt16) {
         push(UInt8(value >> 8))
         push(UInt8(value & 0xFF))
+    }
+
+    func pull() -> UInt8 {
+        stackPointer += 1
+        return memory.read(0x100|UInt16(stackPointer))
+    }
+
+    func pull16() -> UInt16 {
+        let low = UInt16(pull())
+        let high = UInt16(pull())
+
+        return high << 8 | low
     }
     
     private func nextInstruction() throws -> Instruction {
@@ -427,12 +716,27 @@ class CPU6502 {
         stackPointer = 0xFD
         flags = .initialState
     }
+
+    private func compare(_ rhs: UInt8, to lhs: UInt8) {
+        let value = rhs.subtractingReportingOverflow(lhs).partialValue
+
+        setZ(value)
+        setN(value)
+
+        if rhs >= lhs {
+            flags.insert(.carry)
+        } else {
+            flags.remove(.carry)
+        }
+    }
     
     enum Interrupt: Int {
         case none
         case nmi
         case irq
     }
+
+
     
     struct StateFlags: OptionSet, Codable {
         let rawValue: UInt8
@@ -447,6 +751,26 @@ class CPU6502 {
         static let unused = StateFlags(rawValue: 1 << 5)
         static let overflow = StateFlags(rawValue: 1 << 6)
         static let negative = StateFlags(rawValue: 1 << 7)
+    }
+
+    func cpuStateDescription(nextInstruction instruction: Instruction) -> String {
+
+        let cursor = String(format: "%04X  ", programCounter)
+
+        let bytes = instruction.data.map { String(format: "%02X ", $0) }
+            .joined()
+            .padding(toLength: 10, withPad: " ", startingAt: 0)
+
+        let stateInfo = String(format:"A:%02X X:%02X Y:%02X P:%02X SP:%02X CYC:%03d",
+                               accumulator,
+                               registerX,
+                               registerY,
+                               flags.rawValue,
+                               stackPointer,
+                               cycles)
+            .padding(toLength: 33, withPad: " ", startingAt: 0)
+
+        return (cursor + bytes + instruction.description).padding(toLength: 48, withPad: " ", startingAt: 0) + stateInfo
     }
 }
 

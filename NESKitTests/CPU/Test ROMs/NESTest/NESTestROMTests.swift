@@ -1,5 +1,5 @@
 //
-//  CPUInstructionROMTests.swift
+//  NESTestROMTests.swift
 //  NESKitTests
 //
 //  Created by Tom Burns on 4/27/18.
@@ -10,7 +10,7 @@ import XCTest
 
 @testable import NESKit
 
-class CPUInstructionROMTests: XCTestCase {
+class NESTestROMTests: XCTestCase {
     var subject: Console!
 
     override func setUp() {
@@ -18,9 +18,9 @@ class CPUInstructionROMTests: XCTestCase {
         subject = nil
     }
     
-    func testOfficialInstructionROM() {
+    func testNESTestROM() {
         
-        let romURL = Bundle(for: CartridgeTests.self).url(forResource: "official_only", withExtension: "nes")!
+        let romURL = Bundle(for: CartridgeTests.self).url(forResource: "nestest", withExtension: "nes")!
         let romData = try! Data(contentsOf: romURL)
         
         let cartridge = try! Cartridge(data: romData)
@@ -28,20 +28,28 @@ class CPUInstructionROMTests: XCTestCase {
         let console = Console(cartridge: cartridge)
         
         subject = console
-        
+
+        subject.cpu.programCounter = 0xC000
         //FIXME: Actually run this
         
-        for _ in 1...300 {
-            step()
-        }
+        runROM()
         
         
     }
     
-    private func step() {
-        XCTAssertNoThrow(try subject.step())
-//        print(String(format: "Test ROM State: %02X",getROMTestState(from: subject)))
-        
+    private func runROM() {
+        var stop = false
+        while !stop {
+            do {
+                try subject.step()
+            } catch {
+                XCTFail("\(error)")
+                stop = true
+            }
+
+            if stop { break }
+        }
+
         if let debugMessage = getROMDebugMessage(from: subject), debugMessage.isEmpty == false {
             print(debugMessage)
         }
