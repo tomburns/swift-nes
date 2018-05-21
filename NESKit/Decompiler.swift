@@ -23,16 +23,13 @@ extension CPU6502 {
             var remainder = data
 
             while let opcodeByte = remainder.first {
-                guard let size = try? Opcode.size(for: opcodeByte) else {
-                    output.append("???\n")
-                    break
-                }
+                let size = Opcode.sizes[Int(opcodeByte)]
 
                 let instruction = try Instruction(remainder[0..<size])
 
                 output.append("\(instruction.description)\n")
 
-                remainder = Data(remainder.dropFirst(size))
+                remainder = Data(remainder.dropFirst(Int(size)))
             }
 
             return output

@@ -22,6 +22,8 @@ class CPU6502 {
     var registerX: UInt8 = 0
     var registerY: UInt8 = 0
 
+    var interrupt: Interrupt = .none
+
     var carry: Bool {
         return flags.contains(.carry)
     }
@@ -56,11 +58,46 @@ class CPU6502 {
     @discardableResult
     // swiftlint:disable cyclomatic_complexity function_body_length
     func step() throws -> Int {
+
+        switch interrupt {
+        case .nmi:
+            nmi()
+        case .irq:
+            irq()
+        case .none:
+            break
+        }
+
+        interrupt = .none
+
         let instruction = try nextInstruction()
 
         print(cpuStateDescription(nextInstruction: instruction))
 
+        let opcode = Int(instruction.data[0])
+
         programCounter += UInt16(instruction.size)
+
+        let previousCycles = cycles
+
+        let pagesCrossed: Bool
+        switch instruction.operand {
+        case let .absoluteX(address):
+            pagesCrossed = pagesDiffer(address - UInt16(registerX), address)
+        case let .absoluteY(address):
+            pagesCrossed = pagesDiffer(address - UInt16(registerY), address)
+        case .indirectIndexed:
+            let address = memory.read16Bug(UInt16(memory.read(programCounter+1))) + UInt16(registerY)
+            pagesCrossed = pagesDiffer(address - UInt16(registerY), address)
+        default:
+            pagesCrossed = false
+        }
+
+        cycles += Opcode.cycles[opcode]
+
+        if pagesCrossed {
+            cycles += Opcode.pageCycles[opcode]
+        }
 
         let address = operandAddress(for: instruction)
 
@@ -193,7 +230,7 @@ class CPU6502 {
             rra(instruction)
         }
 
-        return 1
+        return cycles - previousCycles
     }
 
     func and(_ instruction: Instruction) {
@@ -746,6 +783,22 @@ class CPU6502 {
         adc(instruction)
     }
 
+    func nmi() {
+        push16(programCounter)
+        php()
+        programCounter = memory.read16(0xFFFA)
+        flags.insert(.interruptDisable)
+        cycles += 7
+    }
+
+    func irq() {
+        push16(programCounter)
+        php()
+        programCounter = memory.read16(0xFFFE)
+        flags.insert(.interruptDisable)
+        cycles += 7
+    }
+
     func setFlags(_ byte: UInt8) {
         flags = StateFlags(rawValue: byte)
     }
@@ -774,7 +827,7 @@ class CPU6502 {
 
     private func nextInstruction() throws -> Instruction {
         let opcodeByte = memory.read(programCounter)
-        let size = try Opcode.size(for: opcodeByte)
+        let size = Opcode.sizes[Int(opcodeByte)]
 
         let bytes = (UInt16(0)..<UInt16(size)).map { memory.read($0 + programCounter) }
 
@@ -877,7 +930,7 @@ class CPU6502 {
                                registerY,
                                flags.rawValue,
                                stackPointer,
-                               cycles)
+                               (cycles * 3) % 341)
             .padding(toLength: 33, withPad: " ", startingAt: 0)
 
         return (cursor + bytes + instruction.description).padding(toLength: 48, withPad: " ", startingAt: 0) + stateInfo
