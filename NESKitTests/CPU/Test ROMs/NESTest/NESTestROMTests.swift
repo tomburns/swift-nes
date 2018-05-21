@@ -47,10 +47,15 @@ class NESTestROMTests: XCTestCase {
             if stop { break }
         }
 
-        print("Test ROM exit codes:", getROMTestState(from: subject))
+        let exitCodes = getROMTestState(from: subject)
+
+        XCTAssertEqual(exitCodes.0, 0)
+        XCTAssertEqual(exitCodes.1, 0)
+
+        print("Test ROM exit codes:", exitCodes)
     }
 
-    private func getROMTestState(from console: Console) -> (UInt8,UInt8) {
-        return (console.cpu.memory.read(0x0002),console.cpu.memory.read(0x0003))
+    private func getROMTestState(from console: Console) -> (UInt8, UInt8) {
+        return (console.cpu.memory.read(0x0002), console.cpu.memory.read(0x0003))
     }
 }

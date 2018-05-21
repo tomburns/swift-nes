@@ -745,7 +745,7 @@ class CPU6502 {
         ror(instruction)
         adc(instruction)
     }
-    
+
     func setFlags(_ byte: UInt8) {
         flags = StateFlags(rawValue: byte)
     }

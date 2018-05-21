@@ -24,7 +24,7 @@ class CartridgeTests: XCTestCase {
 
     func testValidImport() {
 
-        let romURL = Bundle(for: CartridgeTests.self).url(forResource: "1.Branch_Basics", withExtension: "nes")!
+        let romURL = Bundle(for: CartridgeTests.self).url(forResource: "nestest", withExtension: "nes")!
         let romData = try! Data(contentsOf: romURL)
 
         let subject = try! Cartridge(data: romData)

@@ -5,6 +5,7 @@
 //  Created by Tom Burns on 4/24/18.
 //  Copyright © 2018 Claptrap. All rights reserved.
 //
+//swiftlint:disable type_body_length file_length
 
 import Foundation
 
