@@ -76,6 +76,8 @@ class CPU6502 {
 
         let opcode = Int(instruction.data[0])
 
+        programCounter += UInt16(instruction.size)
+
         let previousCycles = cycles
 
         let pagesCrossed: Bool
@@ -91,7 +93,6 @@ class CPU6502 {
             pagesCrossed = false
         }
 
-        programCounter += UInt16(instruction.size)
         cycles += Opcode.cycles[opcode]
 
         if pagesCrossed {
