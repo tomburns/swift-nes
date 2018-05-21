@@ -30,10 +30,8 @@ class NESTestROMTests: XCTestCase {
         subject = console
 
         subject.cpu.programCounter = 0xC000
-        //FIXME: Actually run this
 
         runROM()
-
     }
 
     private func runROM() {
