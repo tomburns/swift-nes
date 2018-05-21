@@ -76,8 +76,6 @@ class CPU6502 {
 
         let opcode = Int(instruction.data[0])
 
-        programCounter += UInt16(instruction.size)
-
         let previousCycles = cycles
 
         let pagesCrossed: Bool
@@ -93,6 +91,7 @@ class CPU6502 {
             pagesCrossed = false
         }
 
+        programCounter += UInt16(instruction.size)
         cycles += Opcode.cycles[opcode]
 
         if pagesCrossed {
@@ -853,7 +852,6 @@ class CPU6502 {
         case .implied:
             address = instruction.location
         case let .indexedIndirect(offset):
-            // uint16(cpu.Read(cpu.PC+1) + cpu.X)
             address = memory.read16Bug(UInt16(offset.addingReportingOverflow(registerX).partialValue))
         case let .indirect(addr):
             address = memory.read16Bug(addr)
