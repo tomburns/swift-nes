@@ -143,7 +143,7 @@ class CPUInstructionTests: XCTestCase {
         XCTAssertNoThrow(try subject.step())
         XCTAssertNoThrow(try subject.step())
 
-        XCTAssertEqual(0xEE, subject.accumulator)
+        XCTAssertEqual(153, subject.accumulator)
     }
 
     func testBPLNoBranch() {

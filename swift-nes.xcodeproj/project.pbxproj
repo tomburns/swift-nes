@@ -17,9 +17,6 @@
 		1F8B9A8C208F969C005ED998 /* Cartridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B9A8B208F969C005ED998 /* Cartridge.swift */; };
 		1F8B9A8E208F96C7005ED998 /* NESKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F8B9A74208F962A005ED998 /* NESKit.framework */; };
 		1F8B9A92208F9749005ED998 /* CartridgeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B9A91208F9749005ED998 /* CartridgeTests.swift */; };
-		1F8B9A9D208FB518005ED998 /* 1.Branch_Basics.nes in Resources */ = {isa = PBXBuildFile; fileRef = 1F8B9A9A208FB518005ED998 /* 1.Branch_Basics.nes */; };
-		1F8B9A9E208FB518005ED998 /* 2.Backward_Branch.nes in Resources */ = {isa = PBXBuildFile; fileRef = 1F8B9A9B208FB518005ED998 /* 2.Backward_Branch.nes */; };
-		1F8B9A9F208FB518005ED998 /* 3.Forward_Branch.nes in Resources */ = {isa = PBXBuildFile; fileRef = 1F8B9A9C208FB518005ED998 /* 3.Forward_Branch.nes */; };
 		1F8B9AA2208FCFE5005ED998 /* Console.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B9AA1208FCFE5005ED998 /* Console.swift */; };
 		1F8B9AA4208FCFFF005ED998 /* CPU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B9AA3208FCFFF005ED998 /* CPU.swift */; };
 		1F8B9AA620901543005ED998 /* Memory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B9AA520901543005ED998 /* Memory.swift */; };
@@ -29,11 +26,7 @@
 		1F8B9AAF20924797005ED998 /* InstructionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B9AAE20924797005ED998 /* InstructionTests.swift */; };
 		1F8B9AB120925D04005ED998 /* CPU6502Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B9AB020925D04005ED998 /* CPU6502Tests.swift */; };
 		1F8B9AB320937A49005ED998 /* CPUInstructionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B9AB220937A49005ED998 /* CPUInstructionTests.swift */; };
-		1F8B9AB520937A66005ED998 /* CPUBranchROMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B9AB420937A66005ED998 /* CPUBranchROMTests.swift */; };
 		1F8B9AB72093BA02005ED998 /* PPU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B9AB62093BA02005ED998 /* PPU.swift */; };
-		1F8B9ABE2094F3EF005ED998 /* all_instrs.nes in Resources */ = {isa = PBXBuildFile; fileRef = 1F8B9ABB2094F3EE005ED998 /* all_instrs.nes */; };
-		1F8B9ABF2094F3EF005ED998 /* official_only.nes in Resources */ = {isa = PBXBuildFile; fileRef = 1F8B9ABC2094F3EF005ED998 /* official_only.nes */; };
-		1F8B9AC12094F3FA005ED998 /* CPUInstructionROMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B9AC02094F3FA005ED998 /* CPUInstructionROMTests.swift */; };
 		C56A6F9F961942C6312BEAF4 /* Pods_NESKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB50D8DFAAB7AFC79CC7BDF /* Pods_NESKit.framework */; };
 		F25F044FEDBF30479B000918 /* Pods_NESKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8526ABC6940BAF0DF2648ED8 /* Pods_NESKitTests.framework */; };
 		F456205C7CFCD0FD60421852 /* Pods_swift_nes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 777DEE9819469AEA391731E2 /* Pods_swift_nes.framework */; };
@@ -83,9 +76,6 @@
 		1F8B9A83208F962A005ED998 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1F8B9A8B208F969C005ED998 /* Cartridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cartridge.swift; sourceTree = "<group>"; };
 		1F8B9A91208F9749005ED998 /* CartridgeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartridgeTests.swift; sourceTree = "<group>"; };
-		1F8B9A9A208FB518005ED998 /* 1.Branch_Basics.nes */ = {isa = PBXFileReference; lastKnownFileType = file; path = 1.Branch_Basics.nes; sourceTree = "<group>"; };
-		1F8B9A9B208FB518005ED998 /* 2.Backward_Branch.nes */ = {isa = PBXFileReference; lastKnownFileType = file; path = 2.Backward_Branch.nes; sourceTree = "<group>"; };
-		1F8B9A9C208FB518005ED998 /* 3.Forward_Branch.nes */ = {isa = PBXFileReference; lastKnownFileType = file; path = 3.Forward_Branch.nes; sourceTree = "<group>"; };
 		1F8B9AA1208FCFE5005ED998 /* Console.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Console.swift; sourceTree = "<group>"; };
 		1F8B9AA3208FCFFF005ED998 /* CPU.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPU.swift; sourceTree = "<group>"; };
 		1F8B9AA520901543005ED998 /* Memory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memory.swift; sourceTree = "<group>"; };
@@ -95,12 +85,7 @@
 		1F8B9AAE20924797005ED998 /* InstructionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionTests.swift; sourceTree = "<group>"; };
 		1F8B9AB020925D04005ED998 /* CPU6502Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPU6502Tests.swift; sourceTree = "<group>"; };
 		1F8B9AB220937A49005ED998 /* CPUInstructionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUInstructionTests.swift; sourceTree = "<group>"; };
-		1F8B9AB420937A66005ED998 /* CPUBranchROMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUBranchROMTests.swift; sourceTree = "<group>"; };
 		1F8B9AB62093BA02005ED998 /* PPU.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PPU.swift; sourceTree = "<group>"; };
-		1F8B9ABA2094F3EE005ED998 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
-		1F8B9ABB2094F3EE005ED998 /* all_instrs.nes */ = {isa = PBXFileReference; lastKnownFileType = file; path = all_instrs.nes; sourceTree = "<group>"; };
-		1F8B9ABC2094F3EF005ED998 /* official_only.nes */ = {isa = PBXFileReference; lastKnownFileType = file; path = official_only.nes; sourceTree = "<group>"; };
-		1F8B9AC02094F3FA005ED998 /* CPUInstructionROMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUInstructionROMTests.swift; sourceTree = "<group>"; };
 		364F2E99CB899DF3405C81D4 /* Pods-swift-nes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-swift-nes.debug.xcconfig"; path = "Pods/Target Support Files/Pods-swift-nes/Pods-swift-nes.debug.xcconfig"; sourceTree = "<group>"; };
 		763F1DE2468F37BFCE1EC21E /* Pods-NESKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NESKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-NESKit/Pods-NESKit.release.xcconfig"; sourceTree = "<group>"; };
 		777DEE9819469AEA391731E2 /* Pods_swift_nes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_swift_nes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -218,17 +203,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		1F8B9A99208FB506005ED998 /* Branch Tests */ = {
-			isa = PBXGroup;
-			children = (
-				1F8B9AB420937A66005ED998 /* CPUBranchROMTests.swift */,
-				1F8B9A9A208FB518005ED998 /* 1.Branch_Basics.nes */,
-				1F8B9A9B208FB518005ED998 /* 2.Backward_Branch.nes */,
-				1F8B9A9C208FB518005ED998 /* 3.Forward_Branch.nes */,
-			);
-			path = "Branch Tests";
-			sourceTree = "<group>";
-		};
 		1F8B9AAB2091352B005ED998 /* CPU */ = {
 			isa = PBXGroup;
 			children = (
@@ -245,21 +219,8 @@
 			isa = PBXGroup;
 			children = (
 				1F53471C20B09FA500F0857A /* NESTest */,
-				1F8B9AB92094F3C8005ED998 /* Instruction Tests */,
-				1F8B9A99208FB506005ED998 /* Branch Tests */,
 			);
 			path = "Test ROMs";
-			sourceTree = "<group>";
-		};
-		1F8B9AB92094F3C8005ED998 /* Instruction Tests */ = {
-			isa = PBXGroup;
-			children = (
-				1F8B9AC02094F3FA005ED998 /* CPUInstructionROMTests.swift */,
-				1F8B9ABB2094F3EE005ED998 /* all_instrs.nes */,
-				1F8B9ABC2094F3EF005ED998 /* official_only.nes */,
-				1F8B9ABA2094F3EE005ED998 /* readme.txt */,
-			);
-			path = "Instruction Tests";
 			sourceTree = "<group>";
 		};
 		8FE151E1C2C319FB4E5CE84D /* Pods */ = {
@@ -401,11 +362,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F53472220B0A7D900F0857A /* nestest.log in Resources */,
-				1F8B9ABF2094F3EF005ED998 /* official_only.nes in Resources */,
-				1F8B9A9D208FB518005ED998 /* 1.Branch_Basics.nes in Resources */,
-				1F8B9A9F208FB518005ED998 /* 3.Forward_Branch.nes in Resources */,
-				1F8B9ABE2094F3EF005ED998 /* all_instrs.nes in Resources */,
-				1F8B9A9E208FB518005ED998 /* 2.Backward_Branch.nes in Resources */,
 				1F53472020B0A03700F0857A /* nestest.nes in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -511,13 +467,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F8B9AB120925D04005ED998 /* CPU6502Tests.swift in Sources */,
-				1F8B9AC12094F3FA005ED998 /* CPUInstructionROMTests.swift in Sources */,
 				1F8B9A82208F962A005ED998 /* NESKitTests.swift in Sources */,
 				1F8B9AB320937A49005ED998 /* CPUInstructionTests.swift in Sources */,
 				1F53471F20B0A02100F0857A /* NESTestROMTests.swift in Sources */,
 				1F8B9AAD2091354E005ED998 /* DecompilerTests.swift in Sources */,
 				1F8B9AAF20924797005ED998 /* InstructionTests.swift in Sources */,
-				1F8B9AB520937A66005ED998 /* CPUBranchROMTests.swift in Sources */,
 				1F8B9A92208F9749005ED998 /* CartridgeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
