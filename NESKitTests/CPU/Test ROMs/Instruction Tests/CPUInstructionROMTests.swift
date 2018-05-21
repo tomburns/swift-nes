@@ -31,9 +31,7 @@ class CPUInstructionROMTests: XCTestCase {
 
         //FIXME: Actually run this
 
-        for _ in 1...300 {
-            step()
-        }
+        runROM()
 
     }
 
@@ -44,6 +42,23 @@ class CPUInstructionROMTests: XCTestCase {
         if let debugMessage = getROMDebugMessage(from: subject), debugMessage.isEmpty == false {
             print(debugMessage)
         }
+    }
+
+    private func runROM() {
+        var stop = false
+        while !stop {
+            do {
+                try subject.step()
+            } catch {
+                XCTFail("\(error)")
+                stop = true
+            }
+
+            if stop { break }
+        }
+
+        print("Test ROM exit codes:", getROMTestState(from: subject))
+        print(getROMDebugMessage(from: subject))
     }
 
     private func getROMTestState(from console: Console) -> UInt8 {

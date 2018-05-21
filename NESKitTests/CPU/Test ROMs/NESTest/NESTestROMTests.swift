@@ -38,7 +38,7 @@ class NESTestROMTests: XCTestCase {
 
     private func runROM() {
         var stop = false
-        while !stop {
+        while subject.cpu.stackPointer != 0xFF {
             do {
                 try subject.step()
             } catch {
@@ -49,29 +49,10 @@ class NESTestROMTests: XCTestCase {
             if stop { break }
         }
 
-        if let debugMessage = getROMDebugMessage(from: subject), debugMessage.isEmpty == false {
-            print(debugMessage)
-        }
+        print("Test ROM exit codes:", getROMTestState(from: subject))
     }
 
-    private func getROMTestState(from console: Console) -> UInt8 {
-        return console.cpu.memory.read(0x6000)
-    }
-
-    private func getROMDebugMessage(from console: Console) -> String? {
-
-        var addr: UInt16 = 0x6004
-
-        var bytes: [UInt8] = []
-
-        var value = console.cpu.memory.read(addr)
-
-        while value != 0 {
-            bytes.append(value)
-            addr+=1
-            value = console.cpu.memory.read(addr)
-        }
-
-        return String(bytes: bytes, encoding: .ascii)
+    private func getROMTestState(from console: Console) -> (UInt8,UInt8) {
+        return (console.cpu.memory.read(0x0002),console.cpu.memory.read(0x0003))
     }
 }

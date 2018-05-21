@@ -65,6 +65,8 @@ class CPU6502 {
         let address = operandAddress(for: instruction)
 
         switch instruction.opcode {
+        case .asl:
+            asl(instruction)
         case .sty:
             sty(instruction)
         case .adc:
@@ -140,9 +142,11 @@ class CPU6502 {
         case .ror:
             ror(instruction)
         case .inc:
-            inc(address)
+            inc(instruction)
         case .lsr:
             lsr(instruction)
+        case .dec:
+            dec(instruction)
         case .rti:
             rti()
         case .stx:
@@ -171,6 +175,22 @@ class CPU6502 {
             ora(instruction)
         case .sbc:
             sbc(instruction)
+        case .lax:
+            lax(instruction)
+        case .sax:
+            sax(instruction)
+        case .dcp:
+            dcp(instruction)
+        case .isc:
+            isc(instruction)
+        case .slo:
+            slo(instruction)
+        case .rla:
+            rla(instruction)
+        case .sre:
+            sre(instruction)
+        case .rra:
+            rra(instruction)
         }
 
         return 1
@@ -202,6 +222,23 @@ class CPU6502 {
         let value = memory.read(operandAddress(for: instruction))
 
         compare(registerY, to: value)
+    }
+
+    func dec(_ instruction: Instruction) {
+        let address = operandAddress(for: instruction)
+        let (value, _) = memory
+            .read(address)
+            .subtractingReportingOverflow(1)
+
+        memory.write(value, to: address)
+
+        setZ(value)
+        setN(value)
+    }
+
+    func dcp(_ instruction: Instruction) {
+        dec(instruction)
+        cmp(instruction)
     }
 
     func adc(_ instruction: Instruction) {
@@ -270,6 +307,38 @@ class CPU6502 {
         flags.remove(.overflow)
     }
 
+    func asl(_ instruction: Instruction) {
+        switch instruction.operand {
+        case .accumulator:
+            if (accumulator >> 7) & 1 == 1 {
+                flags.insert(.carry)
+            } else {
+                flags.remove(.carry)
+            }
+
+            accumulator <<= 1
+
+            setZ(accumulator)
+            setN(accumulator)
+        default:
+            let address = operandAddress(for: instruction)
+            var value = memory.read(address)
+
+            if (value >> 7) & 1 == 1 {
+                flags.insert(.carry)
+            } else {
+                flags.remove(.carry)
+            }
+
+            value <<= 1
+
+            setZ(value)
+            setN(value)
+
+            memory.write(value, to: address)
+        }
+    }
+
     func eor(_ instruction: Instruction) {
         let value = memory.read(operandAddress(for: instruction))
         accumulator ^= value
@@ -309,8 +378,10 @@ class CPU6502 {
         setFlags(pull() & 0xEF | 0x20)
     }
 
-    func inc(_ address: UInt16) {
-        let value = memory.read(address) + 1
+    func inc(_ instruction: Instruction) {
+        let address = operandAddress(for: instruction)
+
+        let (value, _) = memory.read(address).addingReportingOverflow(1)
 
         memory.write(value, to: address)
         setZ(value)
@@ -473,7 +544,7 @@ class CPU6502 {
             let initial = memory.read(address)
             let carried: UInt8 = carry ? 1 : 0
 
-            if (initial >> 7) & 1 == 1 {
+            if (initial & 1) == 1 {
                 flags.insert(.carry)
             } else {
                 flags.remove(.carry)
@@ -482,8 +553,8 @@ class CPU6502 {
             let value = (initial >> 1)  | (carried << 7)
 
             memory.write(value, to: address)
-            setZ(accumulator)
-            setN(accumulator)
+            setZ(value)
+            setN(value)
         }
     }
 
@@ -506,18 +577,21 @@ class CPU6502 {
         accumulator = registerX
 
         setZ(accumulator)
+        setN(accumulator)
     }
 
     func dex() {
-        (registerX, _) = registerY.subtractingReportingOverflow(1)
+        (registerX, _) = registerX.subtractingReportingOverflow(1)
 
         setZ(registerX)
+        setN(registerX)
     }
 
     func inx() {
-        (registerX, _) = registerY.addingReportingOverflow(1)
+        (registerX, _) = registerX.addingReportingOverflow(1)
 
         setZ(registerX)
+        setN(registerX)
     }
 
     func tay() {
@@ -538,12 +612,14 @@ class CPU6502 {
         (registerY, _) = registerY.addingReportingOverflow(1)
 
         setZ(registerY)
+        setN(registerY)
     }
 
     func dey() {
         (registerY, _) = registerY.subtractingReportingOverflow(1)
 
         setZ(registerY)
+        setN(registerY)
     }
 
     private func addBranchCycles(for instruction: Instruction) {
@@ -633,13 +709,50 @@ class CPU6502 {
         programCounter = pull16()
     }
 
+    func lax(_ instruction: Instruction) {
+        let address = operandAddress(for: instruction)
+        lda(address)
+        ldx(address)
+    }
+
+    func sax(_ instruction: Instruction) {
+        let value = accumulator & registerX
+
+        memory.write(value, to: operandAddress(for: instruction))
+    }
+
+    func isc(_ instruction: Instruction) {
+        inc(instruction)
+        sbc(instruction)
+    }
+
+    func slo(_ instruction: Instruction) {
+        asl(instruction)
+        ora(instruction)
+    }
+
+    func rla(_ instruction: Instruction) {
+        rol(instruction)
+        and(instruction)
+    }
+
+    func sre(_ instruction: Instruction) {
+        lsr(instruction)
+        eor(instruction)
+    }
+
+    func rra(_ instruction: Instruction) {
+        ror(instruction)
+        adc(instruction)
+    }
+    
     func setFlags(_ byte: UInt8) {
         flags = StateFlags(rawValue: byte)
     }
 
     func push(_ value: UInt8) {
         memory.write(value, to: 0x100|UInt16(stackPointer))
-        stackPointer -= 1
+        stackPointer = stackPointer.subtractingReportingOverflow(1).partialValue
     }
 
     func push16(_ value: UInt16) {
@@ -648,7 +761,7 @@ class CPU6502 {
     }
 
     func pull() -> UInt8 {
-        stackPointer += 1
+        stackPointer = stackPointer.addingReportingOverflow(1).partialValue
         return memory.read(0x100|UInt16(stackPointer))
     }
 
@@ -677,21 +790,22 @@ class CPU6502 {
         case let .absolute(addr):
             address = addr
         case let .absoluteX(offset):
-            address = UInt16(registerX) + offset
+            address = UInt16(registerX).addingReportingOverflow(UInt16(offset)).partialValue
         case let .absoluteY(offset):
-            address = UInt16(registerY) + offset
+            address = UInt16(registerY).addingReportingOverflow(UInt16(offset)).partialValue
         case .accumulator:
             address = instruction.location
         case .immediate:
-            address = instruction.location + 1
+            address = instruction.location.addingReportingOverflow(1).partialValue
         case .implied:
             address = instruction.location
         case let .indexedIndirect(offset):
-            address = memory.read16(UInt16(registerX) + UInt16(offset))
+            // uint16(cpu.Read(cpu.PC+1) + cpu.X)
+            address = memory.read16Bug(UInt16(offset.addingReportingOverflow(registerX).partialValue))
         case let .indirect(addr):
-            address = memory.read16(addr)
+            address = memory.read16Bug(addr)
         case let .indirectIndexed(offset):
-            address = memory.read16(UInt16(offset)) + UInt16(registerX)
+            address = memory.read16Bug(UInt16(offset)).addingReportingOverflow(UInt16(registerY)).partialValue
         case let .relative(offset):
             if offset < 0x80 {
                 address = UInt16(instruction.location) + 2 + UInt16(offset)
@@ -701,9 +815,9 @@ class CPU6502 {
         case let .zeroPage(addr):
             address = UInt16(addr)
         case let .zeroPageX(addr):
-            address = UInt16(addr + registerX)
+            address = UInt16(addr.addingReportingOverflow(registerX).partialValue)
         case let .zeroPageY(addr):
-            address = UInt16(addr + registerY)
+            address = UInt16(addr.addingReportingOverflow(registerY).partialValue)
         }
 
         return address

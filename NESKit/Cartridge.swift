@@ -2,7 +2,7 @@
 //  Cartridge.swift
 //  NESKit
 //
-//  Created by Tom Burns on 4/24/18.
+//  Created b y Tom Burns on 4/24/18.
 //  Copyright © 2018 Claptrap. All rights reserved.
 //
 
@@ -11,9 +11,9 @@ import Foundation
 public class Cartridge: Codable {
     static let validPreamble = Data(bytes: [78, 69, 83, 26]) // "NES^Z"
 
-    var ram: Data
-    let prg: Data
-    let chr: Data
+    fileprivate(set) var ram: Data
+    fileprivate(set) var prg: Data
+    fileprivate(set) var chr: Data
 
     let mapperValue: Int
 
@@ -56,6 +56,7 @@ enum CartridgeError: Error {
 protocol Mapper: Memory {
     func read(_ address: UInt16) -> UInt8
     func read16(_ address: UInt16) -> UInt16
+    func read16Bug(_ address: UInt16) -> UInt16
     func write(_ value: UInt8, to address: UInt16)
     func step()
 }
@@ -94,7 +95,18 @@ struct NROM128Mapper: Mapper {
     }
 
     func write(_ value: UInt8, to address: UInt16) {
-        assertionFailure("NROM doesn't support writes")
+        switch address {
+        case 0x0000..<0x2000:
+            cartridge.chr[Int(address)] = value
+        case 0x6000..<0x8000:
+            cartridge.ram[Int(address-0x6000)] = value
+        case 0x8000..<0xC000:
+            cartridge.prg[Int(address-0x8000)] = value
+        case 0xC000...0xFFFF:
+            cartridge.prg[Int(address-0xC000)] = value
+        default:
+            fatalError("unsupported NROM-256 read at \(address)")
+        }
     }
 
     func step() {

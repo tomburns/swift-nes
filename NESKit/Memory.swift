@@ -21,6 +21,15 @@ extension Memory {
 
         return (UInt16(high) << 8) + UInt16(low)
     }
+
+    func read16Bug(_ address: UInt16) -> UInt16 {
+        let a = address
+        let b = (a & 0xFF00) | UInt16(UInt8(a & 0x00FF).addingReportingOverflow(1).partialValue)
+        let low = read(a)
+        let high = read(b)
+
+        return (UInt16(high) << 8) | UInt16(low)
+    }
 }
 
 class CPUMemory: Memory {
@@ -45,16 +54,16 @@ class CPUMemory: Memory {
         case 0x4014:
             return ppu.readRegister(address)
         case 0x4015:
-            print("should be reading from APU register here")
+            //print("should be reading from APU register here")
             return 0
         case 0x4016:
-            print("should be reading from Controllers here")
+            //print("should be reading from Controllers here")
             return 0
         case 0x4017:
-            print("should be reading from Controllers here")
+            //print("should be reading from Controllers here")
             return 0
         case 0x4018..<0x6000:
-            print("I/O Registers!")
+            //print("I/O Registers!")
             return 0
         case 0x6000...0xFFFF:
             return mapper.read(address)
@@ -70,17 +79,23 @@ class CPUMemory: Memory {
         case 0x2000..<0x4000:
             ppu.writeRegister(value, to: address)
         case 0x4000..<0x4014:
-            print("should be writing to APU register here")
+            break
+            //print("should be writing to APU register here")
         case 0x4014:
-            print("should be writing to PPU register here")
+            break
+            //print("should be writing to PPU register here")
         case 0x4015:
-            print("should be writing to APU register here")
+            break
+            //print("should be writing to APU register here")
         case 0x4016:
-            print("should be writing to Controllers here")
+            break
+            //print("should be writing to Controllers here")
         case 0x4017:
-            print("should be writing to APU here")
+            break
+            //print("should be writing to APU here")
         case 0x4018..<0x6000:
-            print("I/O Registers!")
+            break
+            //print("I/O Registers!")
         case 0x6000...0xFFFF:
             mapper.write(value, to: address)
         default:
